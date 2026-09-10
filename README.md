@@ -148,4 +148,4 @@ hide_current_mileage: true
 
 ## 📄 License
 
-[<img width="78" height="20" alt="image" src="https://github.com/user-attachments/assets/c14c93d7-50c2-4726-9a47-77f6c466e5b5" />](https://github.com/KroFR/lg-refrigerator-ha-card/blob/main/LICENSE)
+[<img width="78" height="20" alt="image" src="https://github.com/user-attachments/assets/c14c93d7-50c2-4726-9a47-77f6c466e5b5" />](https://github.com/KroFR/car-leasing-ha-card/blob/main/LICENSE)
