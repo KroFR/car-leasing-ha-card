@@ -1,0 +1,5 @@
+* text=auto
+*.js text eol=lf
+dist/car-leasing-card.js linguist-vendored=false
+dist/car-leasing-card.js linguist-generated=false
+dist/car-leasing-card.js linguist-detectable=true
