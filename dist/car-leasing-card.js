@@ -1145,4 +1145,4 @@ window.customCards.push({
     documentationURL: "https://github.com/KroFR/car-leasing-ha-card",
 });
 
-console.info(`%c CAR-LEASING-CARD %c v${CARD_VERSION} `, "color: white; background: #3d7bfa; font-weight: 700;", "color: #3d7bfa; background: white; font-weight: 700;");
+console.info(`%c 🚗 CAR-LEASING-CARD %c v${CARD_VERSION} `, "color: white; background: #3d7bfa; font-weight: 700;", "color: #3d7bfa; background: white; font-weight: 700;");
