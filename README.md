@@ -40,7 +40,7 @@ A custom Lovelace card for [Home Assistant](https://www.home-assistant.io/) that
 1. Download `car-leasing-card.js` from the `dist` folder of this repository.
 2. Copy it to `www/community/car-leasing-card/car-leasing-card.js` in your Home Assistant instance.
 3. Go to **Settings > Dashboards > three-dot menu > Resources**.
-4. Select **Add resource**, set the URL to `/hacsfiles/car-leasing-card/car-leasing-card.js?v=1`, and set resource type to **JavaScript module**.
+4. Select **Add resource**, set the URL to `/hacsfiles/car-leasing-ha-card/car-leasing-card.js?v=1`, and set resource type to **JavaScript module**.
 5. Refresh your browser.
 
 ### Adding the card
