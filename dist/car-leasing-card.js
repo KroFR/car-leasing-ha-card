@@ -1,242 +1,266 @@
 /*
  * Car Leasing Card for Home Assistant
+ * ====================================
  * A Lovelace card that tracks mileage usage against a car leasing contract,
  * showing progress toward the yearly allowance and estimated extra-km costs.
  *
  * License: MIT
  *
  */
- 
-(function () {
-  const CARD_TAG = "car-leasing-card";
-  const EDITOR_TAG = "car-leasing-card-editor";
-  const CARD_VERSION = "1.0.0";
 
-  const TRANSLATIONS = {
+const CARD_TAG = "car-leasing-card";
+const EDITOR_TAG = "car-leasing-card-editor";
+const CARD_VERSION = "1.0.2";
+
+const TRANSLATIONS = {
     en: {
-      title: "Car Leasing",
-      current_mileage: "Current mileage",
-      driven: "Driven since start",
-      total_allowed: "Total allowed",
-      expected_today: "Expected by today",
-      remaining: "Remaining",
-      days_left: "Days left",
-      contract_ended: "Contract ended",
-      status_on_track: "On track",
-      status_ahead: "Ahead of pace",
-      status_over: "Over limit",
-      extra_km: "Extra km",
-      extra_cost: "Estimated extra cost",
-      contract_ends: "Ends",
-      not_available: "Entity not available",
-      check_config: "Check the card configuration (dates or entity).",
-      year_marker: "End of year {n}",
+        title: "Car Leasing",
+        current_mileage: "Current mileage",
+        driven: "Driven since start",
+        total_allowed: "Total allowed",
+        expected_today: "Expected by today",
+        remaining: "Remaining",
+        days_left: "Days left",
+        contract_ended: "Contract ended",
+        status_on_track: "On track",
+        status_ahead: "Ahead of pace",
+        status_over: "Over limit",
+        extra_km: "Extra km",
+        extra_cost: "Estimated extra cost",
+        contract_ends: "Ends",
+        not_available: "Entity not available",
+        check_config: "Check the card configuration (dates or entity).",
+        year_marker: "End of year {n}",
     },
     fr: {
-      title: "Suivi du leasing",
-      current_mileage: "Kilométrage actuel",
-      driven: "Parcouru depuis le début",
-      total_allowed: "Total autorisé",
-      expected_today: "Attendu à ce jour",
-      remaining: "Restant",
-      days_left: "Jours restants",
-      contract_ended: "Contrat terminé",
-      status_on_track: "Dans les clous",
-      status_ahead: "Rythme trop rapide",
-      status_over: "Dépassement",
-      extra_km: "Km supplémentaires",
-      extra_cost: "Coût supplémentaire estimé",
-      contract_ends: "Fin",
-      not_available: "Entité non disponible",
-      check_config: "Vérifiez la configuration de la carte (dates ou entité).",
-      year_marker: "Fin d'année {n}",
+        title: "Suivi du leasing",
+        current_mileage: "Kilométrage actuel",
+        driven: "Parcouru depuis le début",
+        total_allowed: "Total autorisé",
+        expected_today: "Attendu à ce jour",
+        remaining: "Restant",
+        days_left: "Jours restants",
+        contract_ended: "Contrat terminé",
+        status_on_track: "Dans les clous",
+        status_ahead: "Rythme trop rapide",
+        status_over: "Dépassement",
+        extra_km: "Km supplémentaires",
+        extra_cost: "Coût supplémentaire estimé",
+        contract_ends: "Fin",
+        not_available: "Entité non disponible",
+        check_config: "Vérifiez la configuration de la carte (dates ou entité).",
+        year_marker: "Fin d'année {n}",
     },
     de: {
-      title: "Leasing-Übersicht",
-      current_mileage: "Aktueller Kilometerstand",
-      driven: "Gefahren seit Start",
-      total_allowed: "Gesamt erlaubt",
-      expected_today: "Erwartet bis heute",
-      remaining: "Verbleibend",
-      days_left: "Verbleibende Tage",
-      contract_ended: "Vertrag beendet",
-      status_on_track: "Im Plan",
-      status_ahead: "Zu schnelles Tempo",
-      status_over: "Überschritten",
-      extra_km: "Mehrkilometer",
-      extra_cost: "Geschätzte Mehrkosten",
-      contract_ends: "Ende",
-      not_available: "Entität nicht verfügbar",
-      check_config: "Prüfen Sie die Kartenkonfiguration (Daten oder Entität).",
-      year_marker: "Ende von Jahr {n}",
+        title: "Leasing-Übersicht",
+        current_mileage: "Aktueller Kilometerstand",
+        driven: "Gefahren seit Start",
+        total_allowed: "Gesamt erlaubt",
+        expected_today: "Erwartet bis heute",
+        remaining: "Verbleibend",
+        days_left: "Verbleibende Tage",
+        contract_ended: "Vertrag beendet",
+        status_on_track: "Im Plan",
+        status_ahead: "Zu schnelles Tempo",
+        status_over: "Überschritten",
+        extra_km: "Mehrkilometer",
+        extra_cost: "Geschätzte Mehrkosten",
+        contract_ends: "Ende",
+        not_available: "Entität nicht verfügbar",
+        check_config: "Prüfen Sie die Kartenkonfiguration (Daten oder Entität).",
+        year_marker: "Ende von Jahr {n}",
     },
     es: {
-      title: "Seguimiento del leasing",
-      current_mileage: "Kilometraje actual",
-      driven: "Recorrido desde el inicio",
-      total_allowed: "Total permitido",
-      expected_today: "Esperado a día de hoy",
-      remaining: "Restante",
-      days_left: "Días restantes",
-      contract_ended: "Contrato finalizado",
-      status_on_track: "Dentro de lo previsto",
-      status_ahead: "Ritmo demasiado alto",
-      status_over: "Límite superado",
-      extra_km: "Km adicionales",
-      extra_cost: "Coste adicional estimado",
-      contract_ends: "Fin",
-      not_available: "Entidad no disponible",
-      check_config: "Revisa la configuración de la tarjeta (fechas o entidad).",
-      year_marker: "Fin del año {n}",
+        title: "Seguimiento del leasing",
+        current_mileage: "Kilometraje actual",
+        driven: "Recorrido desde el inicio",
+        total_allowed: "Total permitido",
+        expected_today: "Esperado a día de hoy",
+        remaining: "Restante",
+        days_left: "Días restantes",
+        contract_ended: "Contrato finalizado",
+        status_on_track: "Dentro de lo previsto",
+        status_ahead: "Ritmo demasiado alto",
+        status_over: "Límite superado",
+        extra_km: "Km adicionales",
+        extra_cost: "Coste adicional estimado",
+        contract_ends: "Fin",
+        not_available: "Entidad no disponible",
+        check_config: "Revisa la configuración de la tarjeta (fechas o entidad).",
+        year_marker: "Fin del año {n}",
     },
     it: {
-      title: "Monitoraggio leasing",
-      current_mileage: "Chilometraggio attuale",
-      driven: "Percorsi dall'inizio",
-      total_allowed: "Totale consentito",
-      expected_today: "Previsto ad oggi",
-      remaining: "Rimanente",
-      days_left: "Giorni rimanenti",
-      contract_ended: "Contratto terminato",
-      status_on_track: "In linea",
-      status_ahead: "Ritmo troppo elevato",
-      status_over: "Limite superato",
-      extra_km: "Km extra",
-      extra_cost: "Costo extra stimato",
-      contract_ends: "Fine",
-      not_available: "Entità non disponibile",
-      check_config: "Controlla la configurazione della card (date o entità).",
-      year_marker: "Fine anno {n}",
+        title: "Monitoraggio leasing",
+        current_mileage: "Chilometraggio attuale",
+        driven: "Percorsi dall'inizio",
+        total_allowed: "Totale consentito",
+        expected_today: "Previsto ad oggi",
+        remaining: "Rimanente",
+        days_left: "Giorni rimanenti",
+        contract_ended: "Contratto terminato",
+        status_on_track: "In linea",
+        status_ahead: "Ritmo troppo elevato",
+        status_over: "Limite superato",
+        extra_km: "Km extra",
+        extra_cost: "Costo extra stimato",
+        contract_ends: "Fine",
+        not_available: "Entità non disponibile",
+        check_config: "Controlla la configurazione della card (date o entità).",
+        year_marker: "Fine anno {n}",
     },
     pt: {
-      title: "Acompanhamento do leasing",
-      current_mileage: "Quilometragem atual",
-      driven: "Percorrido desde o início",
-      total_allowed: "Total permitido",
-      expected_today: "Esperado até hoje",
-      remaining: "Restante",
-      days_left: "Dias restantes",
-      contract_ended: "Contrato encerrado",
-      status_on_track: "Dentro do previsto",
-      status_ahead: "Ritmo acima do esperado",
-      status_over: "Limite ultrapassado",
-      extra_km: "Km extras",
-      extra_cost: "Custo extra estimado",
-      contract_ends: "Fim",
-      not_available: "Entidade não disponível",
-      check_config: "Verifique a configuração do card (datas ou entidade).",
-      year_marker: "Fim do ano {n}",
+        title: "Acompanhamento do leasing",
+        current_mileage: "Quilometragem atual",
+        driven: "Percorrido desde o início",
+        total_allowed: "Total permitido",
+        expected_today: "Esperado até hoje",
+        remaining: "Restante",
+        days_left: "Dias restantes",
+        contract_ended: "Contrato encerrado",
+        status_on_track: "Dentro do previsto",
+        status_ahead: "Ritmo acima do esperado",
+        status_over: "Limite ultrapassado",
+        extra_km: "Km extras",
+        extra_cost: "Custo extra estimado",
+        contract_ends: "Fim",
+        not_available: "Entidade não disponível",
+        check_config: "Verifique a configuração do card (datas ou entidade).",
+        year_marker: "Fim do ano {n}",
     },
     nl: {
-      title: "Leasing overzicht",
-      current_mileage: "Huidige kilometerstand",
-      driven: "Gereden sinds start",
-      total_allowed: "Totaal toegestaan",
-      expected_today: "Verwacht tot vandaag",
-      remaining: "Resterend",
-      days_left: "Dagen resterend",
-      contract_ended: "Contract beëindigd",
-      status_on_track: "Op schema",
-      status_ahead: "Te hoog tempo",
-      status_over: "Limiet overschreden",
-      extra_km: "Extra km",
-      extra_cost: "Geschatte extra kosten",
-      contract_ends: "Einde",
-      not_available: "Entiteit niet beschikbaar",
-      check_config: "Controleer de kaartconfiguratie (datums of entiteit).",
-      year_marker: "Einde van jaar {n}",
+        title: "Leasing overzicht",
+        current_mileage: "Huidige kilometerstand",
+        driven: "Gereden sinds start",
+        total_allowed: "Totaal toegestaan",
+        expected_today: "Verwacht tot vandaag",
+        remaining: "Resterend",
+        days_left: "Dagen resterend",
+        contract_ended: "Contract beëindigd",
+        status_on_track: "Op schema",
+        status_ahead: "Te hoog tempo",
+        status_over: "Limiet overschreden",
+        extra_km: "Extra km",
+        extra_cost: "Geschatte extra kosten",
+        contract_ends: "Einde",
+        not_available: "Entiteit niet beschikbaar",
+        check_config: "Controleer de kaartconfiguratie (datums of entiteit).",
+        year_marker: "Einde van jaar {n}",
     },
-  };
+};
 
-  function t(lang, key) {
+function t(lang, key) {
     return (TRANSLATIONS[lang] && TRANSLATIONS[lang][key]) || TRANSLATIONS.en[key] || key;
-  }
+}
 
-  function tYearMarker(lang, n) {
+function tYearMarker(lang, n) {
     return t(lang, "year_marker").replace("{n}", n);
-  }
+}
 
-  function resolveLang(configLanguage, hass) {
+function resolveLang(configLanguage, hass) {
     if (configLanguage && configLanguage !== "auto") {
-      return TRANSLATIONS[configLanguage] ? configLanguage : "en";
+        return TRANSLATIONS[configLanguage] ? configLanguage : "en";
     }
     const hassLang = ((hass && (hass.locale?.language || hass.language)) || "en").split("-")[0];
     return TRANSLATIONS[hassLang] ? hassLang : "en";
-  }
+}
 
-  function languageDisplayName(code) {
+function languageDisplayName(code) {
     try {
-      const displayNames = new Intl.DisplayNames([code], { type: "language" });
-      const name = displayNames.of(code);
-      return name ? name.charAt(0).toUpperCase() + name.slice(1) : code;
+        const displayNames = new Intl.DisplayNames([code], {
+            type: "language"
+        });
+        const name = displayNames.of(code);
+        return name ? name.charAt(0).toUpperCase() + name.slice(1) : code;
     } catch (error) {
-      return code;
+        return code;
     }
-  }
+}
 
-  function buildLanguageOptions() {
-    const options = [{ value: "auto", label: "Auto" }];
+function buildLanguageOptions() {
+    const options = [{
+            value: "auto",
+            label: "Auto"
+        }
+    ];
     for (const code of Object.keys(TRANSLATIONS)) {
-      options.push({ value: code, label: languageDisplayName(code) });
+        options.push({
+            value: code,
+            label: languageDisplayName(code)
+        });
     }
     return options;
-  }
-  const LANGUAGE_OPTIONS = buildLanguageOptions();
+}
+const LANGUAGE_OPTIONS = buildLanguageOptions();
 
-  const STATUS_COLORS = {
-    on_track: { color: "#4caf50", bg: "rgba(76,175,80,0.15)" },
-    ahead: { color: "#ff9800", bg: "rgba(255,152,0,0.15)" },
-    over: { color: "#f44336", bg: "rgba(244,67,54,0.15)" },
-  };
+const STATUS_COLORS = {
+    on_track: {
+        color: "#4caf50",
+        bg: "rgba(76,175,80,0.15)"
+    },
+    ahead: {
+        color: "#ff9800",
+        bg: "rgba(255,152,0,0.15)"
+    },
+    over: {
+        color: "#f44336",
+        bg: "rgba(244,67,54,0.15)"
+    },
+};
 
-  const FIELD_DEFAULTS = {
+const FIELD_DEFAULTS = {
     start_mileage: 0,
     annual_allowance: 15000,
     extra_km_cost: 0,
     currency: "€",
     language: "auto",
     vehicle_type: "sedan",
-  };
+};
 
-  /* ---------------------------------------------------------------------- */
-  /*  Helpers                                                               */
-  /* ---------------------------------------------------------------------- */
-  function clamp(v, min, max) {
+/* ---------------------------------------------------------------------- */
+/*  Helpers                                                               */
+/* ---------------------------------------------------------------------- */
+function clamp(v, min, max) {
     return Math.min(max, Math.max(min, v));
-  }
+}
 
-  function daysBetween(a, b) {
+function daysBetween(a, b) {
     return (b.getTime() - a.getTime()) / 86400000;
-  }
+}
 
-  function fmtNum(n, lang) {
-    if (!isFinite(n)) return "–";
-    return new Intl.NumberFormat(lang, { maximumFractionDigits: 0 }).format(Math.round(n));
-  }
+function fmtNum(n, lang) {
+    if (!isFinite(n))
+        return "–";
+    return new Intl.NumberFormat(lang, {
+        maximumFractionDigits: 0
+    }).format(Math.round(n));
+}
 
-  function fmtCurrency(n, currency, lang) {
-    if (!isFinite(n)) return "–";
+function fmtCurrency(n, currency, lang) {
+    if (!isFinite(n))
+        return "–";
     return (
-      new Intl.NumberFormat(lang, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      }).format(n) +
-      " " +
-      currency
-    );
-  }
+        new Intl.NumberFormat(lang, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        }).format(n) +
+        " " +
+        currency);
+}
 
-  function fmtDate(dateStr, lang) {
+function fmtDate(dateStr, lang) {
     try {
-      return new Intl.DateTimeFormat(lang, { year: "numeric", month: "short", day: "numeric" }).format(
-        new Date(dateStr)
-      );
+        return new Intl.DateTimeFormat(lang, {
+            year: "numeric",
+            month: "short",
+            day: "numeric"
+        }).format(
+            new Date(dateStr));
     } catch (e) {
-      return dateStr;
+        return dateStr;
     }
-  }
+}
 
-  function microSvg(color) {
+function microSvg(color) {
     return `
     <svg viewBox="-20.17 0 108 45" fill="none" class="car-svg" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
 		<path d="M30.7891 11.1705C35.0499 9.46907 47.3056 9.86683 52.1319 10.8424C52.9992 11.0229 53.5545 12.0332 53.8526 12.7828C54.7368 15.0206 55.1763 17.3783 55.8848 19.6901C56.6554 22.2015 57.8235 24.5462 58.3829 27.0895C58.3863 27.1058 58.3902 27.1269 58.3936 27.1432C58.3526 27.2891 58.3078 27.4386 58.2647 27.5875C58.033 27.7021 57.8071 27.8362 57.5918 27.9889C57.3543 27.9369 57.1093 27.9 56.8604 27.8834C56.7687 27.4732 56.0711 27.6145 55.8848 27.2496C55.8049 26.2889 52.7191 25.7644 52.045 25.0514L51.9952 25.1744C51.8146 25.1138 51.6429 25.0652 51.4776 25.027C50.8665 25.057 49.8529 25.0971 49.1807 25.0866C49.0643 25.111 48.9436 25.1379 48.8184 25.1666C45.3842 25.9546 45.1539 29.8117 44.4961 32.4489C44.4475 32.6342 42.589 32.5895 42.3809 32.5885C38.3062 32.392 28.528 32.3926 24.4659 32.6901C23.9383 32.8193 23.3173 32.887 22.9141 33.1676C22.0225 28.5641 23.8155 27.6616 17.7637 25.9694C14.848 26.7561 14.6156 27.2001 12.9073 29.5055L12.3575 29.6744C10.7313 26.4229 15.4285 24.7533 17.8379 24.1608C22.9027 25.4515 24.5628 26.2102 25.0001 31.4996C31.0073 31.3244 37.4826 31.2881 43.5001 31.4996C43.7806 27.9847 44.5322 27.3158 47.4502 25.2789C47.8873 25.0694 48.2563 24.9192 48.6114 24.7985C49.4845 23.8773 55.2534 21.878 54.9522 21.2653C54.9302 21.1031 54.8995 20.9368 54.8624 20.7799C55.0048 20.8793 55.1134 21.0101 55.3126 21.2828C54.6741 18.592 54.0517 14.124 52.3536 11.9528C51.7358 11.1666 50.6118 11.2422 49.6622 11.2379C48.1836 11.312 45.7763 11.1069 44.6973 11.2819C44.2599 11.7749 44.3758 11.5083 44.2501 12.0895C40.9373 11.4803 35.5776 11.7097 32.2208 12.2282L32.1836 12.0358C31.5739 11.7854 31.2755 12.0013 30.5254 12.1852C27.6038 13.5103 24.4981 16.6276 21.7481 18.2047C19.2133 19.6568 15.3848 19.9142 12.6866 20.7682C12.3098 23.9824 11.6545 24.1516 10.8575 27.0104C10.6768 27.6748 11.8247 30.9339 11.4932 32.2721L11.1856 32.486C10.8342 32.3649 10.5571 32.3421 10.3585 31.8698C9.25739 29.2235 10.9129 21.6015 13.1085 19.9157C14.1606 19.1191 19.1107 18.47 20.5001 17.4996C23.5804 16.1177 28.2031 12.2064 30.7891 11.1705ZM58.4112 27.2496C58.4047 27.2135 58.4008 27.178 58.3936 27.1432C58.396 27.1344 58.398 27.1247 58.4004 27.1159C58.4039 27.1604 58.4066 27.2054 58.4112 27.2496Z" fill="#313031"/>
@@ -249,9 +273,9 @@
 		<path d="M32.2124 12.2264C35.5689 11.7071 40.9274 11.4781 44.2427 12.0879C45.3807 13.5221 46.3629 16.0131 47.0422 17.7159C44.3077 18.1384 25.3514 19.6324 24.4737 18.4481C24.7024 16.4046 30.3779 13.2391 32.2124 12.2264Z" fill="#313031"/>
 		<path d="M40.3318 24.7597C43.7133 22.9779 50.3614 17.787 54.2058 20.7255C54.2497 20.9524 54.5639 21.2875 54.9255 21.6318C55.3573 22.3523 55.5205 22.9534 55.5203 23.7802C55.3161 24.1071 55.1502 24.4661 55.0252 24.8398C52.3763 23.0101 47.3586 22.8976 45.4695 25.706C44.2468 26.9209 44.0176 28.7532 43.3318 30.2783C40.0326 31.575 29.362 31.8652 26.864 30.1171C26.4036 25.9296 37.5598 26.2018 40.3318 24.7597Z" fill="#B8B7B8"/>
     </svg>`;
-  }
+}
 
-  function sedanSvg(color) {
+function sedanSvg(color) {
     return `
     <svg viewBox="0 0 108 45" fill="none" class="car-svg" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
         <path d="M16.7654 33.0692C16.6409 33.1382 16.6057 33.1625 16.4592 33.2178C15.6167 33.5358 12.6719 33.0915 11.8074 32.6898C11.0139 32.321 10.4287 31.707 10.1754 30.8612C9.54943 28.7712 10.7234 25.0878 11.7352 23.2453C14.2612 18.645 31.1219 18.922 36.3644 17.2067C40.8634 15.7347 44.5259 12.435 49.1844 11.1807C56.2439 9.28 68.7069 9.6845 75.6192 12.319C78.7219 13.5015 81.6019 15.4077 84.8194 16.2677C87.3067 16.9322 91.0272 15.9872 93.2119 17.3697C94.6984 18.3105 94.5269 21.6895 95.0837 23.2555C95.5877 24.6733 96.7019 25.7295 96.9734 27.2677C97.1634 28.3453 97.1797 29.5065 96.4827 30.421C94.6634 32.8075 87.3489 32.4235 84.4329 32.74C84.0697 32.5507 83.9852 32.5135 83.6732 32.2375L83.4532 32.04L82.7727 32.272C82.1632 34.055 81.2532 35.3215 79.5124 36.181C78.0649 36.9058 76.3869 37.0192 74.8552 36.4955C73.1414 35.911 71.8002 34.5232 71.2857 32.7902C71.1502 32.7777 70.8457 32.8515 70.6939 32.8798C70.5922 33.115 70.1879 33.968 69.8637 33.9753C61.0554 34.1723 52.2147 34.0568 43.3997 34.0878C39.1464 34.1028 34.5949 34.257 30.3892 34.0188C29.9067 33.4173 30.0159 32.998 29.9147 32.114L29.6649 31.7777L28.9627 32.1317C28.6727 33.7387 28.1372 34.6892 26.7467 35.6682C25.3382 36.642 23.5932 36.9987 21.9152 36.6565C20.3952 36.3555 19.0624 35.4507 18.2214 34.1495C18.0159 33.8307 17.8834 33.5007 17.7577 33.1462L16.7654 33.0692Z" fill="#313031"/>
@@ -266,9 +290,9 @@
         <path d="M18.3591 27.1972C19.7161 25.541 21.8526 24.7336 23.9658 25.0784C26.079 25.4233 27.848 26.8681 28.6083 28.8694C29.6427 31.593 28.5713 34.6662 26.0676 36.1559C23.5639 37.6457 20.352 37.1217 18.452 34.9134C16.5516 32.705 16.5125 29.4505 18.3591 27.1972Z" fill="#0F100F"/>
         <path d="M21.6537 27.2557C23.0402 26.74 24.5972 27.0162 25.7212 27.9777C26.8455 28.939 27.36 30.4342 27.0657 31.8837C26.7712 33.3332 25.7142 34.5092 24.304 34.956C22.197 35.6235 19.9422 34.4885 19.2227 32.3987C18.5035 30.3087 19.5822 28.0265 21.6537 27.2557Z" fill="white"/>
     </svg>`;
-  }
+}
 
-  function cuvSvg(color) {
+function cuvSvg(color) {
     return `
     <svg viewBox="0 0 108 50" fill="none" class="car-svg" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
 		<path d="M74.1741 30.1106C74.8601 30.8137 75.7507 31.3161 76.7503 31.5198C76.8479 33.5774 78.1895 35.3085 80.0394 35.9798C79.0397 38.1567 76.9055 39.6783 74.4153 39.8265C71.9046 39.9754 69.589 38.6952 68.346 36.6224C70.5064 36.0701 72.1047 34.1102 72.1048 31.7776C72.1047 31.6483 72.0969 31.5198 72.0872 31.3929C72.8883 31.1431 73.602 30.6961 74.1741 30.1106ZM42.7014 12.1829C52.4823 9.13591 68.2184 9.99354 78.1155 10.552C80.4231 12.2575 84.5656 17.2059 86.4905 19.5286C86.6105 20.9241 86.7326 22.6138 87.055 23.9602C88.0335 28.0475 88.8989 31.4686 86.2923 33.3558C86.5817 32.723 86.7444 32.0199 86.7444 31.2786C86.7443 28.8599 85.0274 26.8416 82.7454 26.3782C82.619 23.7295 80.4323 21.6205 77.7522 21.6204C76.3498 21.6204 75.0821 22.1981 74.1741 23.1282C73.2663 22.199 72.0004 21.6207 70.5989 21.6204C67.8376 21.6204 65.5982 23.8592 65.5979 26.6204C65.5979 26.7491 65.604 26.877 65.6135 27.0032C63.5804 27.6374 62.1051 29.5357 62.1048 31.7776C62.1048 32.9495 62.5086 34.0268 63.1839 34.8792C62.5669 34.8814 61.953 34.8875 61.3606 34.8987C51.7304 35.0827 41.9428 34.7548 32.3293 35.1273C32.2243 32.3494 32.2797 30.1466 30.3459 27.8538C29.0674 26.3176 27.2147 25.3714 25.2209 25.2337C23.2256 25.0784 21.2509 25.7313 19.7414 27.0452C17.0991 29.353 16.9401 31.9656 16.7619 35.1282C15.2806 35.1635 11.4023 35.4816 10.6418 34.3812C9.09079 32.1329 10.5882 24.8746 12.675 23.4358C17.4079 20.1739 24.2501 20.7191 29.5979 19.222C33.909 18.3735 38.8729 13.3758 42.7014 12.1829Z" fill="#313031"/>
@@ -282,9 +306,9 @@
 		<path d="M22.8774 26.8112C25.1677 26.1837 27.6187 26.835 29.2959 28.5162C30.9729 30.1977 31.6179 32.6502 30.9847 34.9392C30.3517 37.228 28.5382 39.0005 26.2352 39.581C22.7249 40.466 19.1567 38.3592 18.2362 34.858C17.3154 31.357 19.3859 27.7675 22.8774 26.8112Z" fill="#0F100F"/>
 		<path d="M23.6767 28.7902C26.0904 28.2612 28.4819 29.7675 29.0472 32.1732C29.6122 34.5787 28.1417 36.9925 25.7449 37.5937C24.0052 38.03 22.1722 37.3967 21.0727 35.98C19.7539 34.281 19.8144 31.888 21.2174 30.2577C21.8564 29.515 22.7194 29 23.6767 28.7902Z" fill="white"/>
     </svg>`;
-  }
+}
 
-  function suvSvg(color) {
+function suvSvg(color) {
     return `
     <svg viewBox="0 0 108 50" fill="none" class="car-svg" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
 		<path d="M62.7884 10.1273C67.7859 10.0405 72.7834 10.0047 77.7809 10.0199C81.7284 10.0136 87.416 9.84473 91.146 10.6157C92.201 11.7265 96.8034 18.3535 97.3459 19.7695C98.2684 22.168 99.6084 31.2508 98.7334 33.6953C96.9684 35.7393 92.251 35.805 89.3985 36.3178C89.3685 33.4438 89.5534 31.4178 87.5684 28.9643C86.1884 27.2545 84.1734 26.179 81.9859 25.9848C79.7209 25.756 77.4584 26.4665 75.7309 27.9503C73.0334 30.302 73.061 33.1003 72.806 36.3625C64.551 36.8418 53.8609 36.8438 45.5409 36.94L33.1359 37.0773C33.0284 31.787 31.1684 26.4418 24.9384 26.1965C22.7434 26.115 20.6084 26.923 19.0184 28.4373C16.4484 30.8808 16.2885 33.7923 16.2385 37.1058C14.1485 36.6575 12.2809 36.369 10.1209 35.8558C10.0909 35.6698 10.0634 35.4835 10.0384 35.2968C9.78344 33.3713 10.8335 24.11 12.1135 23.4285C18.1435 20.2168 26.831 20.508 33.491 19.242C35.9785 18.7695 38.911 16.4263 41.146 15.1953C48.171 10.0243 54.3759 10.5105 62.7884 10.1273Z" fill="#3D3D3E"/>
@@ -296,9 +320,9 @@
 		<path d="M79.486 28.6533C81.906 28.0535 84.461 28.8113 86.1635 30.6338C87.8635 32.456 88.446 35.057 87.681 37.43C86.916 39.8033 84.926 41.5763 82.481 42.063C78.821 42.7918 75.2484 40.4645 74.4334 36.8215C73.6209 33.1783 75.8635 29.5515 79.486 28.6533Z" fill="#0F100F"/>
 		<path d="M80.4084 30.9158C82.2209 30.6173 84.0309 31.4598 84.9684 33.0383C85.9084 34.617 85.7834 36.6098 84.6559 38.06C83.9909 38.9165 83.0359 39.5013 81.9709 39.7048C80.3909 40.0068 78.771 39.4353 77.731 38.2093C76.6885 36.983 76.3885 35.2918 76.9435 33.782C77.496 32.272 78.8209 31.1773 80.4084 30.9158Z" fill="white"/>
     </svg>`;
-  }
-  
-  function vanSvg(color) {
+}
+
+function vanSvg(color) {
     return `
     <svg viewBox="0 0 108 50" fill="none" class="car-svg" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
 		<path d="M20.202 41.1073C19.6916 41.0978 20.5449 41.1204 20.202 41.1073V41.1073ZM44.2743 10.9372C52.4175 9.83442 87.4446 9.47047 93.8944 11.1521C99.5361 15.9262 100.04 22.2745 101.13 29.0682C101.442 31.0269 102.152 34.7339 101.812 36.5575C101.093 40.4132 92.1888 39.4031 88.5605 39.5194C82.2955 39.721 76.0244 39.8807 69.7548 40.1083C67.6057 40.2772 52.081 40.774 50.4774 40.5048C49.4378 40.5287 12.9119 42.8419 10.6746 38.9432C9.12236 36.2358 10.4696 27.9533 12.5545 25.7781C15.5676 22.6334 22.7694 22.4069 26.5741 20.367C32.4776 17.1702 37.3343 11.8769 44.2743 10.9372Z" fill="#3D3D3E"/>
@@ -311,9 +335,9 @@
 		<path d="M79.3591 34.1972C80.7161 32.541 82.8526 31.7336 84.9658 32.0784C87.079 32.4233 88.848 33.8681 89.6083 35.8694C90.6427 38.593 89.5713 41.6662 87.0676 43.1559C84.5639 44.6457 81.352 44.1217 79.452 41.9134C77.5516 39.705 77.5125 36.4505 79.3591 34.1972Z" fill="#0F100F"/>
 		<path d="M82.6537 34.2557C84.0402 33.74 85.5972 34.0162 86.7212 34.9777C87.8455 35.939 88.36 37.4342 88.0657 38.8837C87.7712 40.3332 86.7142 41.5092 85.304 41.956C83.197 42.6235 80.9422 41.4885 80.2227 39.3987C79.5035 37.3087 80.5822 35.0265 82.6537 34.2557Z" fill="white"/>
     </svg>`;
-  }
-  
-  function campervanSvg(color) {
+}
+
+function campervanSvg(color) {
     return `
     <svg viewBox="0 0 108 55" fill="none" class="car-svg" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
 		<path d="M22.054 18.4262C23.073 15.2252 26.145 11.3182 29.7218 10.9094C35.368 10.2647 41.2258 10.4732 46.938 10.3494C58.0785 10.1074 69.2223 10.0407 80.3648 10.1492C83.279 10.1499 98.8175 9.45093 100.346 11.0727C101.778 14.2969 102.772 36.2874 102.143 40.7049C101.16 41.3049 99.874 41.8699 98.7695 42.0724C95.8815 42.5974 84.0298 43.0899 81.8295 42.6399L80.7183 42.7349C80.7765 45.1274 78.958 47.1499 76.5725 47.3449C74.1868 47.5424 72.0623 45.8449 71.7285 43.4724C71.054 42.9874 68.8288 43.1774 67.3273 42.9124C54.869 42.7824 40.6918 42.5699 28.2668 42.9224C27.0058 38.7974 24.049 35.1424 19.1455 38.3549C17.4668 39.4524 17.05 41.7624 16.884 43.6849C14.7593 43.3424 12.0038 42.9174 10 42.2574C10.1157 40.8949 10.631 38.6824 10.648 37.4874C10.7345 31.3824 16.9383 32.2399 20.7078 29.6199C23.565 27.6344 27.3243 23.7152 29.7913 20.9322C25.6315 21.0732 25.0315 21.1364 22.054 18.4262ZM58.698 27.0569L59.1458 26.1909C59.4888 26.6194 59.4948 26.7867 59.629 27.3077C59.6803 24.6792 59.7378 22.3457 59.5648 19.7112C59.448 20.2014 59.357 20.5152 59.1963 20.9919L58.7025 19.6389L58.698 27.0569Z" fill="#313031"/>
@@ -328,9 +352,9 @@
 		<path d="M75.6537 39.2557C77.0402 38.74 78.5972 39.0162 79.7212 39.9777C80.8455 40.939 81.36 42.4342 81.0657 43.8837C80.7712 45.3332 79.7142 46.5092 78.304 46.956C76.197 47.6235 73.9422 46.4885 73.2227 44.3987C72.5035 42.3087 73.5822 40.0265 75.6537 39.2557Z" fill="white"/>
 		<path fill-rule="evenodd" clip-rule="evenodd" d="M58 18.1058C58 19 58 41 58 41H67C67 41 67 19 67 18C67 17 58 17.2117 58 18.1058Z" stroke="#313031"/>
     </svg>`;
-  }
-  
-  function pickupSvg(color) {
+}
+
+function pickupSvg(color) {
     return `
     <svg viewBox="0 0 108 50" fill="none" class="car-svg" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
 		<path d="M46.9766 10.7412C51.8685 10.2737 65.6192 9.29178 70.5713 10.834C71.414 11.0965 71.7518 16.7618 71.8506 18.1328C77.6908 18.1633 83.5311 18.1214 89.3711 18.0059C92.7961 17.9249 97.5658 17.6492 100.886 17.8691C102.456 31.9702 104.523 31.1691 88.5234 34.2598C87.7334 33.689 87.4934 30.5209 86.6484 29.4736C83.736 25.8737 79.2087 24.4516 75.3438 27.5586C72.67 29.7081 72.3619 31.8237 71.9502 35.0244C69.4189 35.0334 66.8877 35.0746 64.3574 35.1465C64.2387 35.0901 64.1357 35.0457 64.0527 35.0127C63.5376 34.808 63.0964 34.7303 62.874 34.6973C62.1694 34.5927 61.4367 34.646 61.334 34.6514C60.6928 34.6849 60.1446 34.7322 59.3652 34.7324C59.354 34.7321 59.2968 34.731 59.1611 34.7236C58.9916 34.7144 58.8192 34.703 58.5459 34.6865C58.0355 34.6558 57.3611 34.6186 56.5654 34.6064C56.1827 34.6006 55.8172 34.5782 55.3975 34.5469C55.0238 34.519 54.4708 34.4715 53.9531 34.4512C53.0467 34.4155 51.465 34.4386 50.7539 34.4482C50.0473 34.4578 49.4645 34.5072 48.9277 34.5996C48.6676 34.6444 48.4624 34.6926 48.3506 34.7188C48.3313 34.7233 48.3161 34.7259 48.3047 34.7285C47.8039 34.71 47.3344 34.765 46.9189 34.8643C46.7945 34.894 46.6499 34.9341 46.4902 34.9873C45.2271 35.006 44.4024 35.0068 44.3731 35.0068C43.534 35.0068 42.7432 35.2139 42.0488 35.5791C38.5367 35.5841 34.9666 35.5688 31.4746 35.7188C31.4809 32.8505 31.429 30.6273 29.2695 28.3848C27.8161 26.8879 25.8301 26.0256 23.7441 25.9863C21.671 25.9436 19.6684 26.7393 18.1895 28.1924C15.9175 30.4056 15.7333 32.8386 15.6943 35.7861C9.28016 33.3551 8.54065 28.9325 12.1943 22.6113C14.971 17.8085 28.7563 19.4887 33.4482 17.5508C37.7274 15.7833 41.9184 11.0523 46.9766 10.7412ZM48.3047 34.7285C48.2253 34.7469 48.311 34.7269 48.3965 34.7119C48.3681 34.7169 48.3323 34.7233 48.3047 34.7285Z" fill="white"/>
@@ -346,154 +370,201 @@
 		<path d="M22.0073 28.2782C25.6505 27.3532 29.3525 29.5627 30.2675 33.2085C31.1823 36.8545 28.9623 40.5502 25.314 41.455C21.68 42.356 18.002 40.1467 17.0908 36.5155C16.1793 32.884 18.3783 29.1997 22.0073 28.2782Z" fill="#0F100F"/>
 		<path d="M23.0423 30.5317C25.4313 30.1977 27.641 31.8572 27.9863 34.2447C28.3315 36.632 26.6825 38.8495 24.2968 39.206C21.895 39.5647 19.6595 37.9022 19.3118 35.499C18.9643 33.0957 20.6373 30.868 23.0423 30.5317Z" fill="white"/>
     </svg>`;
-  }
+}
 
-  const VEHICLE_TYPES = [
-    { value: "micro", label: "Micro", svg: microSvg },
-    { value: "sedan", label: "Sedan", svg: sedanSvg },
-    { value: "cuv", label: "CUV", svg: cuvSvg },
-    { value: "suv", label: "SUV", svg: suvSvg },
-    { value: "van", label: "Van", svg: vanSvg },
-    { value: "campervan", label: "Campervan", svg: campervanSvg },
-    { value: "pickup", label: "Pickup", svg: pickupSvg },
-  ];
-  const VEHICLE_TYPE_OPTIONS = VEHICLE_TYPES.map(({ value, label }) => ({ value, label }));
-  const VEHICLE_SVGS = Object.fromEntries(VEHICLE_TYPES.map(({ value, svg }) => [value, svg]));
+const VEHICLE_TYPES = [{
+        value: "micro",
+        label: "Micro",
+        svg: microSvg
+    }, {
+        value: "sedan",
+        label: "Sedan",
+        svg: sedanSvg
+    }, {
+        value: "cuv",
+        label: "CUV",
+        svg: cuvSvg
+    }, {
+        value: "suv",
+        label: "SUV",
+        svg: suvSvg
+    }, {
+        value: "van",
+        label: "Van",
+        svg: vanSvg
+    }, {
+        value: "campervan",
+        label: "Campervan",
+        svg: campervanSvg
+    }, {
+        value: "pickup",
+        label: "Pickup",
+        svg: pickupSvg
+    },
+];
 
-  function carSvgForType(vehicleType, color) {
+const VEHICLE_TYPE_OPTIONS = VEHICLE_TYPES.map(({
+            value,
+            label
+        }) => ({
+            value,
+            label
+        }));
+
+const VEHICLE_SVGS = Object.fromEntries(VEHICLE_TYPES.map(({
+                value,
+                svg
+            }) => [value, svg]));
+
+function carSvgForType(vehicleType, color) {
     const renderer = VEHICLE_SVGS[vehicleType] || VEHICLE_SVGS[FIELD_DEFAULTS.vehicle_type];
     return renderer(color);
-  }
+}
 
-  /* ---------------------------------------------------------------------- */
-  /*  Main card                                                             */
-  /* ---------------------------------------------------------------------- */
-  class CarLeasingCard extends HTMLElement {
+/* ---------------------------------------------------------------------- */
+/*  Main card                                                             */
+/* ---------------------------------------------------------------------- */
+class CarLeasingCard extends HTMLElement {
     static getConfigElement() {
-      return document.createElement(EDITOR_TAG);
+        return document.createElement("car-leasing-card-editor");
     }
 
     static getStubConfig() {
-      return {
-        type: `custom:${CARD_TAG}`,
-        mileage_entity: "",
-        contract_start: "",
-        contract_end: "",
-      };
+        return {
+            type: `custom:${car-leasing-card}`,
+            mileage_entity: "",
+            contract_start: "",
+            contract_end: "",
+        };
     }
 
     setConfig(config) {
-      if (!config.mileage_entity) {
-        throw new Error("You need to define a mileage_entity");
-      }
-      if (!config.contract_start || !config.contract_end) {
-        throw new Error("You need to define contract_start and contract_end");
-      }
-      this._config = { ...config };
+        if (!config.mileage_entity) {
+            throw new Error("You need to define a mileage_entity");
+        }
+        if (!config.contract_start || !config.contract_end) {
+            throw new Error("You need to define contract_start and contract_end");
+        }
+        this._config = {
+            ...config
+        };
     }
 
     set hass(hass) {
-      this._hass = hass;
-      if (!this.shadowRoot) {
-        this.attachShadow({ mode: "open" });
-      }
-      this._render();
+        this._hass = hass;
+        if (!this.shadowRoot) {
+            this.attachShadow({
+                mode: "open"
+            });
+        }
+        this._render();
     }
 
     getCardSize() {
-      return 5;
+        return 5;
     }
 
     _lang() {
-      return resolveLang(this._config.language, this._hass);
+        return resolveLang(this._config.language, this._hass);
     }
 
     _computeData() {
-      const cfg = this._config;
-      const hass = this._hass;
-      const stateObj = hass.states[cfg.mileage_entity];
-      if (!stateObj) {
-        return { error: "not_available" };
-      }
-      const currentMileage = parseFloat(stateObj.state);
-      if (isNaN(currentMileage)) {
-        return { error: "not_available" };
-      }
-
-      const startDate = new Date(cfg.contract_start);
-      const endDate = new Date(cfg.contract_end);
-      if (isNaN(startDate.getTime()) || isNaN(endDate.getTime()) || endDate <= startDate) {
-        return { error: "check_config" };
-      }
-
-      const annualAllowance = Number(cfg.annual_allowance ?? FIELD_DEFAULTS.annual_allowance);
-      const extraKmCost = Number(cfg.extra_km_cost ?? FIELD_DEFAULTS.extra_km_cost);
-      const startMileage = Number(cfg.start_mileage ?? FIELD_DEFAULTS.start_mileage) || 0;
-
-      const now = new Date();
-      const totalDays = daysBetween(startDate, endDate);
-      const totalYears = totalDays / 365.25;
-      const totalAllowedKm = annualAllowance * totalYears;
-      const drivenKm = Math.max(0, currentMileage - startMileage);
-
-      const elapsedDays = clamp(daysBetween(startDate, now), 0, totalDays);
-      const expectedKmToDate = annualAllowance * (elapsedDays / 365.25);
-
-      const progressPct = totalAllowedKm > 0 ? clamp((drivenKm / totalAllowedKm) * 100, 0, 100) : 0;
-      const expectedPct = totalAllowedKm > 0 ? clamp((expectedKmToDate / totalAllowedKm) * 100, 0, 100) : 0;
-
-      const remainingKm = totalAllowedKm - drivenKm;
-      const extraKm = drivenKm > totalAllowedKm ? drivenKm - totalAllowedKm : 0;
-      const extraCost = extraKm * extraKmCost;
-
-      const daysLeftRaw = Math.ceil(daysBetween(now, endDate));
-      const contractEnded = daysLeftRaw <= 0;
-      const daysLeft = Math.max(0, daysLeftRaw);
-
-      const YEAR_EPS = 0.01;
-      const yearMarkers = [];
-      if (totalYears > 1 + YEAR_EPS) {
-        const wholeYears = Math.floor(totalYears + YEAR_EPS);
-        for (let k = 1; k <= wholeYears; k++) {
-          if (k >= totalYears - YEAR_EPS) break;
-          yearMarkers.push({ year: k, pct: (k / totalYears) * 100 });
+        const cfg = this._config;
+        const hass = this._hass;
+        const stateObj = hass.states[cfg.mileage_entity];
+        if (!stateObj) {
+            return {
+                error: "not_available"
+            };
         }
-      }
+        const currentMileage = parseFloat(stateObj.state);
+        if (isNaN(currentMileage)) {
+            return {
+                error: "not_available"
+            };
+        }
 
-      let status = "on_track";
-      if (drivenKm > totalAllowedKm) {
-        status = "over";
-      } else if (elapsedDays > 0 && drivenKm > expectedKmToDate * 1.05) {
-        status = "ahead";
-      }
+        const startDate = new Date(cfg.contract_start);
+        const endDate = new Date(cfg.contract_end);
+        if (isNaN(startDate.getTime()) || isNaN(endDate.getTime()) || endDate <= startDate) {
+            return {
+                error: "check_config"
+            };
+        }
 
-      return {
-        currentMileage,
-        drivenKm,
-        totalAllowedKm,
-        expectedKmToDate,
-        progressPct,
-        expectedPct,
-        yearMarkers,
-        remainingKm,
-        extraKm,
-        extraCost,
-        daysLeft,
-        contractEnded,
-        status,
-        endDate: cfg.contract_end,
-      };
+        const annualAllowance = Number(cfg.annual_allowance ?? FIELD_DEFAULTS.annual_allowance);
+        const extraKmCost = Number(cfg.extra_km_cost ?? FIELD_DEFAULTS.extra_km_cost);
+        const startMileage = Number(cfg.start_mileage ?? FIELD_DEFAULTS.start_mileage) || 0;
+
+        const now = new Date();
+        const totalDays = daysBetween(startDate, endDate);
+        const totalYears = totalDays / 365.25;
+        const totalAllowedKm = annualAllowance * totalYears;
+        const drivenKm = Math.max(0, currentMileage - startMileage);
+
+        const elapsedDays = clamp(daysBetween(startDate, now), 0, totalDays);
+        const expectedKmToDate = annualAllowance * (elapsedDays / 365.25);
+
+        const progressPct = totalAllowedKm > 0 ? clamp((drivenKm / totalAllowedKm) * 100, 0, 100) : 0;
+        const expectedPct = totalAllowedKm > 0 ? clamp((expectedKmToDate / totalAllowedKm) * 100, 0, 100) : 0;
+
+        const remainingKm = totalAllowedKm - drivenKm;
+        const extraKm = drivenKm > totalAllowedKm ? drivenKm - totalAllowedKm : 0;
+        const extraCost = extraKm * extraKmCost;
+
+        const daysLeftRaw = Math.ceil(daysBetween(now, endDate));
+        const contractEnded = daysLeftRaw <= 0;
+        const daysLeft = Math.max(0, daysLeftRaw);
+
+        const YEAR_EPS = 0.01;
+        const yearMarkers = [];
+        if (totalYears > 1 + YEAR_EPS) {
+            const wholeYears = Math.floor(totalYears + YEAR_EPS);
+            for (let k = 1; k <= wholeYears; k++) {
+                if (k >= totalYears - YEAR_EPS)
+                    break;
+                yearMarkers.push({
+                    year: k,
+                    pct: (k / totalYears) * 100
+                });
+            }
+        }
+
+        let status = "on_track";
+        if (drivenKm > totalAllowedKm) {
+            status = "over";
+        } else if (elapsedDays > 0 && drivenKm > expectedKmToDate * 1.05) {
+            status = "ahead";
+        }
+
+        return {
+            currentMileage,
+            drivenKm,
+            totalAllowedKm,
+            expectedKmToDate,
+            progressPct,
+            expectedPct,
+            yearMarkers,
+            remainingKm,
+            extraKm,
+            extraCost,
+            daysLeft,
+            contractEnded,
+            status,
+            endDate: cfg.contract_end,
+        };
     }
 
     _render() {
-      if (!this._config || !this._hass) return;
-      const lang = this._lang();
-      const cfg = this._config;
-      const data = this._computeData();
-      const darkMode = Boolean(this._hass?.themes?.darkMode);
+        if (!this._config || !this._hass)
+            return;
+        const lang = this._lang();
+        const cfg = this._config;
+        const data = this._computeData();
+        const darkMode = Boolean(this._hass?.themes?.darkMode);
 
-      if (data.error) {
-        this.shadowRoot.innerHTML = `
+        if (data.error) {
+            this.shadowRoot.innerHTML = `
           <style>${this._baseStyles()}</style>
           <ha-card>
             <div class="card-content error-state">
@@ -504,31 +575,30 @@
               </div>
             </div>
           </ha-card>`;
-        return;
-      }
+            return;
+        }
 
-      const title = cfg.name || t(lang, "title");
-      const statusColors = STATUS_COLORS[data.status];
-      const statusLabel = t(lang, `status_${data.status}`);
-      const currency = cfg.currency || FIELD_DEFAULTS.currency;
+        const title = cfg.name || t(lang, "title");
+        const statusColors = STATUS_COLORS[data.status];
+        const statusLabel = t(lang, `status_${data.status}`);
+        const currency = cfg.currency || FIELD_DEFAULTS.currency;
 
-      const yearTicks = data.yearMarkers
-        .map(
-          (m) =>
-            `<div class="year-tick" style="left:${m.pct}%" title="${tYearMarker(lang, m.year)}"></div>`
-        )
-        .join("");
+        const yearTicks = data.yearMarkers
+            .map(
+                (m) =>
+`<div class="year-tick" style="left:${m.pct}%" title="${tYearMarker(lang, m.year)}"></div>`)
+            .join("");
 
-      const carHidden = Boolean(cfg.hide_car_image);
-      const vehicleType = cfg.vehicle_type || FIELD_DEFAULTS.vehicle_type;
+        const carHidden = Boolean(cfg.hide_car_image);
+        const vehicleType = cfg.vehicle_type || FIELD_DEFAULTS.vehicle_type;
 
-      const carWrapBlock = carHidden
-        ? ""
-        : `<div class="car-wrap">${carSvgForType(vehicleType, statusColors.color)}</div>`;
+        const carWrapBlock = carHidden
+             ? ""
+             : `<div class="car-wrap">${carSvgForType(vehicleType, statusColors.color)}</div>`;
 
-      const progressBlock = cfg.hide_progress_bar
-        ? ""
-        : `
+        const progressBlock = cfg.hide_progress_bar
+             ? ""
+             : `
             <div class="progress-section">
               <div class="progress-track">
                 <div class="progress-fill" style="width:${data.progressPct}%;background:${statusColors.color}"></div>
@@ -541,83 +611,80 @@
               </div>
             </div>`;
 
-      const statRows = [];
-      if (!cfg.hide_current_mileage) {
-        statRows.push(`
+        const statRows = [];
+        if (!cfg.hide_current_mileage) {
+            statRows.push(`
               <div class="stat">
                 <span class="stat-label">${t(lang, "current_mileage")}</span>
                 <span class="stat-value">${fmtNum(data.currentMileage, lang)} km</span>
               </div>`);
-      }
-      if (!cfg.hide_driven) {
-        statRows.push(`
+        }
+        if (!cfg.hide_driven) {
+            statRows.push(`
               <div class="stat">
                 <span class="stat-label">${t(lang, "driven")}</span>
                 <span class="stat-value">${fmtNum(data.drivenKm, lang)} km</span>
               </div>`);
-      }
-      if (!cfg.hide_expected_today) {
-        statRows.push(`
+        }
+        if (!cfg.hide_expected_today) {
+            statRows.push(`
               <div class="stat">
                 <span class="stat-label">${t(lang, "expected_today")}</span>
                 <span class="stat-value">${fmtNum(data.expectedKmToDate, lang)} km</span>
               </div>`);
-      }
-      if (!cfg.hide_remaining) {
-        statRows.push(`
+        }
+        if (!cfg.hide_remaining) {
+            statRows.push(`
               <div class="stat">
                 <span class="stat-label">${t(lang, "remaining")}</span>
                 <span class="stat-value ${data.remainingKm < 0 ? "negative" : ""}">${fmtNum(
-                  data.remainingKm,
-                  lang
-                )} km</span>
+                    data.remainingKm,
+                    lang)} km</span>
               </div>`);
-      }
-      if (!cfg.hide_days_left) {
-        statRows.push(`
+        }
+        if (!cfg.hide_days_left) {
+            statRows.push(`
               <div class="stat">
                 <span class="stat-label">${t(lang, "days_left")}</span>
                 <span class="stat-value">${data.contractEnded ? t(lang, "contract_ended") : data.daysLeft}</span>
               </div>`);
-      }
-      if (!cfg.hide_contract_ends) {
-        statRows.push(`
+        }
+        if (!cfg.hide_contract_ends) {
+            statRows.push(`
               <div class="stat">
                 <span class="stat-label">${t(lang, "contract_ends")}</span>
                 <span class="stat-value">${fmtDate(data.endDate, lang)}</span>
               </div>`);
-      }
-      const statsPanelBlock =
-        statRows.length > 0
-          ? `
+        }
+        const statsPanelBlock =
+            statRows.length > 0
+             ? `
             <div class="stats-panel">
               <div class="stats-grid">${statRows.join("")}
               </div>
             </div>`
-          : "";
+             : "";
 
-      const extraBlock =
-        data.extraKm > 0 && !cfg.hide_extra_alert
-          ? `
+        const extraBlock =
+            data.extraKm > 0 && !cfg.hide_extra_alert
+             ? `
         <div class="extra-banner">
           <ha-icon icon="mdi:cash-alert"></ha-icon>
           <div class="extra-text">
             <div class="extra-line"><span>${t(lang, "extra_km")}</span><b>${fmtNum(data.extraKm, lang)} km</b></div>
             <div class="extra-line"><span>${t(lang, "extra_cost")}</span><b>${fmtCurrency(
-              data.extraCost,
-              currency,
-              lang
-            )}</b></div>
+                data.extraCost,
+                currency,
+                lang)}</b></div>
           </div>
         </div>`
-          : "";
+             : "";
 
-     const hasContentBelowHeader = Boolean(
-        carWrapBlock || progressBlock || statsPanelBlock || extraBlock
-      );
-      const headerExtraGapClass = carHidden && hasContentBelowHeader ? " no-car" : "";
+        const hasContentBelowHeader = Boolean(
+                carWrapBlock || progressBlock || statsPanelBlock || extraBlock);
+        const headerExtraGapClass = carHidden && hasContentBelowHeader ? " no-car" : "";
 
-      this.shadowRoot.innerHTML = `
+        this.shadowRoot.innerHTML = `
         <style>${this._baseStyles()}</style>
         <ha-card>
           <div class="card-content${darkMode ? " dark-mode" : ""}">
@@ -638,7 +705,7 @@
     }
 
     _baseStyles() {
-      return `
+        return `
         ha-card { padding: 0; overflow: hidden; }
         .card-content { padding: 16px; }
         .error-state { display:flex; align-items:center; gap:12px; color: var(--secondary-text-color); }
@@ -699,12 +766,12 @@
         .extra-line { display:flex; justify-content:space-between; gap:16px; font-size:0.9em; color: var(--primary-text-color); }
       `;
     }
-  }
+}
 
-  /* ---------------------------------------------------------------------- */
-  /*  Visual editor                                                         */
-  /* ---------------------------------------------------------------------- */
-  const EDITOR_LABELS = {
+/* ---------------------------------------------------------------------- */
+/*  Visual editor                                                         */
+/* ---------------------------------------------------------------------- */
+const EDITOR_LABELS = {
     name: "Card name",
     mileage_entity: "Mileage sensor",
     start_mileage: "Mileage at contract start",
@@ -715,86 +782,87 @@
     currency: "Currency symbol",
     vehicle_type: "Vehicle type",
     language: "Card display language",
-  };
+};
 
-  const SECTION_ICONS = {
+const SECTION_ICONS = {
     general: "mdi:cog-outline",
     contract: "mdi:file-document-edit-outline",
     appearance: "mdi:palette-outline",
-  };
+};
 
-  const REQUIRED_FIELDS = new Set(["mileage_entity", "contract_start", "contract_end"]);
+const REQUIRED_FIELDS = new Set(["mileage_entity", "contract_start", "contract_end"]);
 
-  const DECIMAL_TEXT_FIELDS = new Set(["annual_allowance", "start_mileage", "extra_km_cost"]);
+const DECIMAL_TEXT_FIELDS = new Set(["annual_allowance", "start_mileage", "extra_km_cost"]);
 
-  const BOOLEAN_FIELDS = new Set([
-    "hide_car_image",
-    "hide_progress_bar",
-    "hide_current_mileage",
-    "hide_driven",
-    "hide_expected_today",
-    "hide_remaining",
-    "hide_days_left",
-    "hide_contract_ends",
-    "hide_extra_alert",
-  ]);
+const BOOLEAN_FIELDS = new Set([
+            "hide_car_image",
+            "hide_progress_bar",
+            "hide_current_mileage",
+            "hide_driven",
+            "hide_expected_today",
+            "hide_remaining",
+            "hide_days_left",
+            "hide_contract_ends",
+            "hide_extra_alert",
+        ]);
 
-  function getDeepActiveElement() {
+function getDeepActiveElement() {
     let active = document.activeElement;
     while (active && active.shadowRoot && active.shadowRoot.activeElement) {
-      active = active.shadowRoot.activeElement;
+        active = active.shadowRoot.activeElement;
     }
     return active;
-  }
+}
 
-  class CarLeasingCardEditor extends HTMLElement {
+class CarLeasingCardEditor extends HTMLElement {
     constructor() {
-      super();
-      this._rendered = false;
+        super();
+        this._rendered = false;
     }
 
     setConfig(config) {
-      this._config = { ...config };
-      if (!this._rendered) {
-        this._render();
-        this._rendered = true;
-      }
-      this._updateValues();
+        this._config = {
+            ...config
+        };
+        if (!this._rendered) {
+            this._render();
+            this._rendered = true;
+        }
+        this._updateValues();
     }
 
     set hass(hass) {
-      this._hass = hass;
-      if (!this._rendered) {
-        this._render();
-        this._rendered = true;
-      }
-      this._updateValues();
+        this._hass = hass;
+        if (!this._rendered) {
+            this._render();
+            this._rendered = true;
+        }
+        this._updateValues();
     }
 
     connectedCallback() {
-      if (!this._rendered && this._config) {
-        this._render();
-        this._rendered = true;
-        this._updateValues();
-      }
+        if (!this._rendered && this._config) {
+            this._render();
+            this._rendered = true;
+            this._updateValues();
+        }
     }
 
     _languageOptions() {
-      return LANGUAGE_OPTIONS;
+        return LANGUAGE_OPTIONS;
     }
 
     _sectionSummary(icon, title) {
-      return `<summary><span class="section-title"><ha-icon icon="${icon}"></ha-icon>${title}</span></summary>`;
+        return `<summary><span class="section-title"><ha-icon icon="${icon}"></ha-icon>${title}</span></summary>`;
     }
 
     _entityPicker(key, label, domains = []) {
-      return `<div class="field"><span>${label}</span><ha-entity-picker data-config="${key}" data-domains="${domains.join(
-        ","
-      )}" allow-custom-entity></ha-entity-picker></div>`;
+        return `<div class="field"><span>${label}</span><ha-entity-picker data-config="${key}" data-domains="${domains.join(
+            ",")}" allow-custom-entity></ha-entity-picker></div>`;
     }
 
     _switchRow(key, label, description) {
-      return `
+        return `
         <div class="switch-row">
           <div class="switch-text">
             <span class="switch-label">${label}</span>
@@ -803,9 +871,8 @@
           <ha-switch data-config="${key}"></ha-switch>
         </div>`;
     }
-
     _render() {
-      this.innerHTML = `
+        this.innerHTML = `
         <style>
           .editor { display: grid; gap: 12px; padding: 8px 0; }
           details.section {
@@ -880,188 +947,204 @@
               ${this._switchRow(
                 "hide_current_mileage",
                 "Hide current mileage",
-                "Hide the current mileage value from the info panel."
-              )}
+                "Hide the current mileage value from the info panel.")}
               ${this._switchRow(
                 "hide_driven",
                 "Hide driven since start",
-                "Hide the driven-since-start value from the info panel."
-              )}
+                "Hide the driven-since-start value from the info panel.")}
               ${this._switchRow(
                 "hide_expected_today",
                 "Hide expected by today",
-                "Hide the expected-by-today value from the info panel."
-              )}
+                "Hide the expected-by-today value from the info panel.")}
               ${this._switchRow(
                 "hide_remaining",
                 "Hide remaining",
-                "Hide the remaining km value from the info panel."
-              )}
+                "Hide the remaining km value from the info panel.")}
               ${this._switchRow(
                 "hide_days_left",
                 "Hide days left",
-                "Hide the days-left value from the info panel."
-              )}
+                "Hide the days-left value from the info panel.")}
               ${this._switchRow(
                 "hide_contract_ends",
                 "Hide contract end date",
-                "Hide the contract end date value from the info panel."
-              )}
+                "Hide the contract end date value from the info panel.")}
               ${this._switchRow(
                 "hide_extra_alert",
                 "Never show extra-cost alert",
-                "Never display the extra-km cost alert, even if the mileage allowance is exceeded."
-              )}
+                "Never display the extra-km cost alert, even if the mileage allowance is exceeded.")}
             </div>
           </details>
         </div>
       `;
-      this._initializeEntityPickers();
-      this._initializeSelectFields();
-      this._initializeStandardFields();
-      this._initializeSwitchFields();
+        this._initializeEntityPickers();
+        this._initializeSelectFields();
+        this._initializeStandardFields();
+        this._initializeSwitchFields();
     }
 
     _initializeEntityPickers() {
-      this.querySelectorAll("ha-entity-picker[data-config]").forEach((picker) => {
-        picker.hass = this._hass;
-        picker.allowCustomEntity = true;
-        const domains = picker.dataset.domains?.split(",").filter(Boolean);
-        if (domains?.length) picker.includeDomains = domains;
-        picker.addEventListener("value-changed", (event) => this._valueChanged(event));
-      });
+        this.querySelectorAll("ha-entity-picker[data-config]").forEach((picker) => {
+            picker.hass = this._hass;
+            picker.allowCustomEntity = true;
+            const domains = picker.dataset.domains?.split(",").filter(Boolean);
+            if (domains?.length)
+                picker.includeDomains = domains;
+            picker.addEventListener("value-changed", (event) => this._valueChanged(event));
+        });
     }
 
     _initializeSelectFields() {
-      this.querySelectorAll("ha-selector[data-config]").forEach((selector) => {
-        const key = selector.dataset.config;
-        selector.hass = this._hass;
-        if (key === "language") {
-          selector.selector = { select: { mode: "dropdown", options: this._languageOptions() } };
-        } else if (key === "vehicle_type") {
-          selector.selector = { select: { mode: "dropdown", options: VEHICLE_TYPE_OPTIONS } };
-        } else {
-          selector.selector = { date: {} };
-        }
-        selector.addEventListener("value-changed", (event) => this._valueChanged(event));
-      });
+        this.querySelectorAll("ha-selector[data-config]").forEach((selector) => {
+            const key = selector.dataset.config;
+            selector.hass = this._hass;
+            if (key === "language") {
+                selector.selector = {
+                    select: {
+                        mode: "dropdown",
+                        options: this._languageOptions()
+                    }
+                };
+            } else if (key === "vehicle_type") {
+                selector.selector = {
+                    select: {
+                        mode: "dropdown",
+                        options: VEHICLE_TYPE_OPTIONS
+                    }
+                };
+            } else {
+                selector.selector = {
+                    date: {}
+                };
+            }
+            selector.addEventListener("value-changed", (event) => this._valueChanged(event));
+        });
     }
 
     _initializeStandardFields() {
-      this.querySelectorAll("input[data-config]").forEach((element) => {
-        element.addEventListener("input", (event) => this._valueChanged(event));
-      });
+        this.querySelectorAll("input[data-config]").forEach((element) => {
+            element.addEventListener("input", (event) => this._valueChanged(event));
+        });
     }
 
     _initializeSwitchFields() {
-      this.querySelectorAll("ha-switch[data-config]").forEach((element) => {
-        element.addEventListener("change", (event) => this._valueChanged(event));
-      });
+        this.querySelectorAll("ha-switch[data-config]").forEach((element) => {
+            element.addEventListener("change", (event) => this._valueChanged(event));
+        });
     }
 
     _updateValues() {
-      if (!this._rendered || !this._config) return;
-      this.querySelectorAll("[data-config]").forEach((element) => {
-        const key = element.dataset.config;
-        const value = this._config[key];
-        if (element.tagName === "HA-ENTITY-PICKER") {
-          element.hass = this._hass;
-          element.value = value ?? "";
-          return;
-        }
-        if (element.tagName === "HA-SELECTOR") {
-          element.hass = this._hass;
-          const isEmpty = value === undefined || value === null || value === "";
-          if (key === "language") {
-            element.value = isEmpty ? FIELD_DEFAULTS.language : value;
+        if (!this._rendered || !this._config)
             return;
-          }
-          if (key === "vehicle_type") {
-            element.value = isEmpty ? FIELD_DEFAULTS.vehicle_type : value;
-            return;
-          }
-          element.value = value ?? "";
-          return;
-        }
-        if (element.tagName === "HA-SWITCH") {
-          element.checked = value === true;
-          return;
-        }
-        if (getDeepActiveElement() !== element) {
-          element.value = value ?? "";
-        }
-      });
+        this.querySelectorAll("[data-config]").forEach((element) => {
+            const key = element.dataset.config;
+            const value = this._config[key];
+            if (element.tagName === "HA-ENTITY-PICKER") {
+                element.hass = this._hass;
+                element.value = value ?? "";
+                return;
+            }
+            if (element.tagName === "HA-SELECTOR") {
+                element.hass = this._hass;
+                const isEmpty = value === undefined || value === null || value === "";
+                if (key === "language") {
+                    element.value = isEmpty ? FIELD_DEFAULTS.language : value;
+                    return;
+                }
+                if (key === "vehicle_type") {
+                    element.value = isEmpty ? FIELD_DEFAULTS.vehicle_type : value;
+                    return;
+                }
+                element.value = value ?? "";
+                return;
+            }
+            if (element.tagName === "HA-SWITCH") {
+                element.checked = value === true;
+                return;
+            }
+            if (getDeepActiveElement() !== element) {
+                element.value = value ?? "";
+            }
+        });
     }
 
     _valueChanged(event) {
-      if (!this._config) return;
-      const target = event.currentTarget;
-      const key = target?.dataset?.config;
-      if (!key) return;
-
-      let value;
-      if (target.tagName === "HA-ENTITY-PICKER" || target.tagName === "HA-SELECTOR") {
-        value = event.detail?.value ?? target.value ?? "";
-        if (key === "language" && value === FIELD_DEFAULTS.language) value = "";
-        if (key === "vehicle_type" && value === FIELD_DEFAULTS.vehicle_type) value = "";
-      } else if (target.tagName === "HA-SWITCH") {
-        value = Boolean(target.checked);
-      } else if (DECIMAL_TEXT_FIELDS.has(key)) {
-        const raw = target.value.trim();
-        if (raw === "") {
-          value = undefined;
-        } else {
-          const normalized = raw.replace(",", ".");
-          const parsed = Number(normalized);
-          if (!Number.isFinite(parsed)) {
+        if (!this._config)
             return;
-          }
-          value = parsed;
+        const target = event.currentTarget;
+        const key = target?.dataset?.config;
+        if (!key)
+            return;
+
+        let value;
+        if (target.tagName === "HA-ENTITY-PICKER" || target.tagName === "HA-SELECTOR") {
+            value = event.detail?.value ?? target.value ?? "";
+            if (key === "language" && value === FIELD_DEFAULTS.language)
+                value = "";
+            if (key === "vehicle_type" && value === FIELD_DEFAULTS.vehicle_type)
+                value = "";
+        } else if (target.tagName === "HA-SWITCH") {
+            value = Boolean(target.checked);
+        } else if (DECIMAL_TEXT_FIELDS.has(key)) {
+            const raw = target.value.trim();
+            if (raw === "") {
+                value = undefined;
+            } else {
+                const normalized = raw.replace(",", ".");
+                const parsed = Number(normalized);
+                if (!Number.isFinite(parsed)) {
+                    return;
+                }
+                value = parsed;
+            }
+        } else {
+            value = target.value;
         }
-      } else {
-        value = target.value;
-      }
 
-      if (REQUIRED_FIELDS.has(key) && (value === "" || value === undefined)) {
-        const previous = this._config[key] ?? "";
-        target.value = previous;
-        return;
-      }
+        if (REQUIRED_FIELDS.has(key) && (value === "" || value === undefined)) {
+            const previous = this._config[key] ?? "";
+            target.value = previous;
+            return;
+        }
 
-      const config = { ...this._config, [key]: value };
-      const isDefaultBoolean = BOOLEAN_FIELDS.has(key) && value === false;
-      if (value === "" || value === undefined || isDefaultBoolean) delete config[key];
-      this._config = config;
+        const config = {
+            ...this._config,
+            [key]: value
+        };
+        const isDefaultBoolean = BOOLEAN_FIELDS.has(key) && value === false;
+        if (value === "" || value === undefined || isDefaultBoolean)
+            delete config[key];
+        this._config = config;
 
-      this.dispatchEvent(
-        new CustomEvent("config-changed", {
-          detail: { config: { ...this._config } },
-          bubbles: true,
-          composed: true,
-        })
-      );
+        this.dispatchEvent(
+            new CustomEvent("config-changed", {
+                detail: {
+                    config: {
+                        ...this._config
+                    }
+                },
+                bubbles: true,
+                composed: true,
+            }));
     }
-  }
+}
 
-  /* ---------------------------------------------------------------------- */
-  /*  Registration                                                          */
-  /* ---------------------------------------------------------------------- */
-  if (!customElements.get(CARD_TAG)) {
-    customElements.define(CARD_TAG, CarLeasingCard);
-  }
-  if (!customElements.get(EDITOR_TAG)) {
-    customElements.define(EDITOR_TAG, CarLeasingCardEditor);
-  }
+/* ---------------------------------------------------------------------- */
+/*  Registration                                                          */
+/* ---------------------------------------------------------------------- */
+if (!customElements.get("car-leasing-card")) {
+    customElements.define("car-leasing-card", CarLeasingCard);
+}
+if (!customElements.get("car-leasing-card-editor")) {
+    customElements.define("car-leasing-card-editor", CarLeasingCardEditor);
+}
 
-  window.customCards = window.customCards || [];
-  window.customCards.push({
-    type: CARD_TAG,
+window.customCards = window.customCards || [];
+window.customCards.push({
+    type: "car-leasing-card",
     name: "Car Leasing Card",
     description: "Track mileage usage against your car leasing contract, with extra-km cost estimation.",
     preview: true,
     documentationURL: "https://github.com/KroFR/car-leasing-ha-card",
-  });
+});
 
-  // eslint-disable-next-line no-console
-  console.info(`%c CAR-LEASING-CARD %c v${CARD_VERSION} `, "color: white; background: #3d7bfa; font-weight: 700;", "color: #3d7bfa; background: white; font-weight: 700;");
-})();
+console.info(`%c CAR-LEASING-CARD %c v${CARD_VERSION} `, "color: white; background: #3d7bfa; font-weight: 700;", "color: #3d7bfa; background: white; font-weight: 700;");
