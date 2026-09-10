@@ -6,7 +6,7 @@
 
 # 🚗 Car Leasing Card
 
-A custom Lovelace card for Home Assistant that tracks mileage usage against a car leasing contract. It shows progress toward your yearly allowance, how many days are left on the contract, and estimates the extra-km cost if you go over your limit.
+A custom Lovelace card for [Home Assistant](https://www.home-assistant.io/) that tracks mileage usage against a car leasing contract. It shows progress toward your yearly allowance, how many days are left on the contract, and estimates the extra-km cost if you go over your limit.
 
 | Light Theme | Dark Theme |
 |---|---|
