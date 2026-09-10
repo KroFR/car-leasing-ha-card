@@ -8,8 +8,6 @@
  *
  */
 
-const CARD_TAG = "car-leasing-card";
-const EDITOR_TAG = "car-leasing-card-editor";
 const CARD_VERSION = "1.0.2";
 
 const TRANSLATIONS = {
