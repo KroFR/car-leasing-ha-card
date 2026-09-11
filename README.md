@@ -39,7 +39,7 @@ A custom Lovelace card for [Home Assistant](https://www.home-assistant.io/) that
 1. Open HACS in Home Assistant.
 2. Click on the three dots in the top right corner.
 3. Select **Custom repositories**.
-4. Add this repository URL: `https://github.com/KroFR/car-leasing-ha-card`.
+4. Add this repository URL: `https://github.com/KroFR/car-leasing-ha-card`
 5. Select **Dashboard** as the category.
 6. Click **Add**.
 7. Search for **Car Leasing Card** and install it.
