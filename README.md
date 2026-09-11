@@ -12,6 +12,15 @@ A custom Lovelace card for [Home Assistant](https://www.home-assistant.io/) that
 |---|---|
 | <img width="500" height="433" alt="image" src="https://github.com/user-attachments/assets/83a82b8a-61d4-4d3a-9202-e7c1057517f0" /> | <img width="500" height="433" alt="image" src="https://github.com/user-attachments/assets/59553b3e-7399-459c-bf48-0be66a2ef6d1" /> |
 
+| Information | Description |
+|------------|-------------|
+| **Current mileage** | The current odometer reading reported by the selected mileage sensor. This value represents the vehicle's actual mileage at the present time. |
+| **Driven since start** | The distance driven during the leasing contract. Useful if the vehicle was already used before the contract began. |
+| **Expected by today** | The mileage you would be expected to have driven today if your annual allowance was consumed evenly throughout the contract. This helps determine whether you are ahead of pace, on track, or below your expected usage. |
+| **Remaining** | The estimated number of kilometers remaining before reaching the total mileage allowance for the entire contract. A negative value indicates that the mileage allowance has been exceeded. |
+| **Days left** | The number of days remaining until the end of the leasing contract. Once the contract end date is reached, the card displays **Contract ended** instead of a number. |
+| **Ends** | The configured contract end date. This helps you quickly see when the leasing agreement expires and when the vehicle is due for return or renewal. |
+
 ## ✨ Features
 
 - Mileage progress bar with yearly markers, comparing actual driven km against the expected pace for the current date.
