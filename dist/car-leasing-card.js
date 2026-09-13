@@ -8,7 +8,7 @@
  *
  */
 
-const CARD_VERSION = "1.0.3";
+const CARD_VERSION = "1.0.4";
 
 /* ---------------------------------------------------------------------- */
 /*  Main card                                                             */
@@ -168,6 +168,7 @@ class CarLeasingCard extends HTMLElement {
     static FIELD_DEFAULTS = {
         start_mileage: 0,
         annual_allowance: 15000,
+        ahead_tolerance_pct: 5,
         extra_km_cost: 0,
         currency: "€",
         language: "auto",
@@ -517,6 +518,8 @@ class CarLeasingCard extends HTMLElement {
         const annualAllowance = Number(cfg.annual_allowance ?? CarLeasingCard.FIELD_DEFAULTS.annual_allowance);
         const extraKmCost = Number(cfg.extra_km_cost ?? CarLeasingCard.FIELD_DEFAULTS.extra_km_cost);
         const startMileage = Number(cfg.start_mileage ?? CarLeasingCard.FIELD_DEFAULTS.start_mileage) || 0;
+        const aheadTolerancePct = Number(
+            cfg.ahead_tolerance_pct ?? CarLeasingCard.FIELD_DEFAULTS.ahead_tolerance_pct);
 
         const now = new Date();
         const totalDays = this._daysBetween(startDate, endDate);
@@ -555,7 +558,7 @@ class CarLeasingCard extends HTMLElement {
         let status = "on_track";
         if (drivenKm > totalAllowedKm) {
             status = "over";
-        } else if (elapsedDays > 0 && drivenKm > expectedKmToDate * 1.05) {
+        } else if (elapsedDays > 0 && drivenKm > expectedKmToDate * (1 + aheadTolerancePct / 100)) {
             status = "ahead";
         }
 
@@ -804,6 +807,7 @@ class CarLeasingCardEditor extends HTMLElement {
         contract_start: "Contract start date",
         contract_end: "Contract end date",
         annual_allowance: "Allowed km / year",
+        ahead_tolerance_pct: "Ahead-of-pace tolerance (%)",
         extra_km_cost: "Cost per extra km",
         currency: "Currency symbol",
         vehicle_type: "Vehicle type",
@@ -818,7 +822,12 @@ class CarLeasingCardEditor extends HTMLElement {
 
     static REQUIRED_FIELDS = new Set(["mileage_entity", "contract_start", "contract_end"]);
 
-    static DECIMAL_TEXT_FIELDS = new Set(["annual_allowance", "start_mileage", "extra_km_cost"]);
+    static DECIMAL_TEXT_FIELDS = new Set([
+        "annual_allowance",
+        "ahead_tolerance_pct",
+        "start_mileage",
+        "extra_km_cost",
+    ]);
 
     static BOOLEAN_FIELDS = new Set([
                 "hide_car_image",
@@ -990,6 +999,7 @@ class CarLeasingCardEditor extends HTMLElement {
                 <label>${CarLeasingCardEditor.EDITOR_LABELS.start_mileage}<input data-config="start_mileage" type="text" inputmode="decimal" placeholder="${CarLeasingCard.FIELD_DEFAULTS.start_mileage}"></label>
                 <label>${CarLeasingCardEditor.EDITOR_LABELS.extra_km_cost}<input data-config="extra_km_cost" type="text" inputmode="decimal" placeholder="${CarLeasingCard.FIELD_DEFAULTS.extra_km_cost}"></label>
                 <label>${CarLeasingCardEditor.EDITOR_LABELS.currency}<input data-config="currency" type="text" placeholder="${CarLeasingCard.FIELD_DEFAULTS.currency}"></label>
+				<label>${CarLeasingCardEditor.EDITOR_LABELS.ahead_tolerance_pct}<input data-config="ahead_tolerance_pct" type="text" inputmode="decimal" placeholder="${CarLeasingCard.FIELD_DEFAULTS.ahead_tolerance_pct}"></label>
               </div>
             </div></div>
           </details>
