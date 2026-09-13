@@ -793,7 +793,7 @@ class CarLeasingCard extends HTMLElement {
           border-top: 6px solid;
         }
         .progress-marker-badge {
-          position: absolute; left: -21px; bottom: 7px;
+          position: absolute; left: 0; bottom: 7px; transform: translateX(-50%);
           font-size: 0.68em; font-weight: 700; color: #fff;
           padding: 2px 6px; border-radius: 6px; white-space: nowrap;
           box-shadow: 0 1px 3px rgba(0,0,0,.35);
