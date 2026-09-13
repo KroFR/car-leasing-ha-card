@@ -164,6 +164,11 @@ class CarLeasingCard extends HTMLElement {
             bg: "rgba(244,67,54,0.15)"
         },
     };
+    static STATUS_MARKER_COLORS = {
+        on_track: "#1b5e20",
+        ahead: "#e65100",
+        over: "#b71c1c",
+    };
 
     static FIELD_DEFAULTS = {
         start_mileage: 0,
@@ -606,6 +611,7 @@ class CarLeasingCard extends HTMLElement {
 
         const title = cfg.name || this._t(lang, "title");
         const statusColors = CarLeasingCard.STATUS_COLORS[data.status];
+        const markerColor = CarLeasingCard.STATUS_MARKER_COLORS[data.status];
         const statusLabel = this._t(lang, `status_${data.status}`);
         const currency = cfg.currency || CarLeasingCard.FIELD_DEFAULTS.currency;
 
@@ -622,6 +628,10 @@ class CarLeasingCard extends HTMLElement {
              ? ""
              : `<div class="car-wrap">${this._carSvgForType(vehicleType, statusColors.color)}</div>`;
 
+        const gapKm = data.drivenKm - data.expectedKmToDate;
+        const gapSign = gapKm >= 0 ? "+" : "";
+        const gapLabel = `${gapSign}${this._fmtNum(gapKm, lang, numberFormat)} km`;
+
         const progressBlock = cfg.hide_progress_bar
              ? ""
              : `
@@ -629,7 +639,10 @@ class CarLeasingCard extends HTMLElement {
               <div class="progress-track">
                 <div class="progress-fill" style="width:${data.progressPct}%;background:${statusColors.color}"></div>
                 ${yearTicks}
-                <div class="progress-marker" style="left:${data.expectedPct}%" title="${this._t(lang, "expected_today")}"></div>
+                <div class="progress-marker-wrap" style="left:${data.expectedPct}%" title="${this._t(lang, "expected_today")}">
+                  <div class="progress-marker-arrow" style="border-top-color:${markerColor}"></div>
+                  <div class="progress-marker-badge" style="background:${markerColor}">${gapLabel}</div>
+                </div>
               </div>
               <div class="progress-labels">
                 <span>0 km</span>
@@ -764,11 +777,27 @@ class CarLeasingCard extends HTMLElement {
         .car-wrap { width: 100%; display:flex; justify-content:center; margin: 4px 0 8px; }
         .car-svg { width: 100%; max-width: 260px; height: auto; }
 
-        .progress-section { margin: 4px 0 16px; }
+        .progress-section { margin: 34px 0 16px; }
         .progress-track { position: relative; height: 14px; border-radius: 7px; background: var(--divider-color); overflow: visible; }
         .progress-fill { position: absolute; left:0; top:0; height:100%; border-radius:7px; transition: width .4s ease; }
         .year-tick { position: absolute; top:0; height:100%; width:1px; background: var(--primary-text-color); opacity: 0.25; }
-        .progress-marker { position: absolute; top:-4px; width:2px; height:22px; background: var(--primary-text-color); opacity: 0.5; }
+        .progress-marker-wrap {
+          position: absolute; top: -32px; height: 28px;
+          pointer-events: none;
+        }
+        .progress-marker-arrow {
+          position: absolute; left: 0; bottom: 0; transform: translateX(-50%);
+          width: 0; height: 0;
+          border-left: 5px solid transparent;
+          border-right: 5px solid transparent;
+          border-top: 6px solid;
+        }
+        .progress-marker-badge {
+          position: absolute; left: -21px; bottom: 7px;
+          font-size: 0.68em; font-weight: 700; color: #fff;
+          padding: 2px 6px; border-radius: 6px; white-space: nowrap;
+          box-shadow: 0 1px 3px rgba(0,0,0,.35);
+        }
         .progress-labels { display:flex; justify-content:space-between; font-size:0.75em; color: var(--secondary-text-color); margin-top:4px; }
 
         .stats-panel {
