@@ -71,6 +71,7 @@ Edit any dashboard and select **Add Card**. Search for **Car Leasing Card**, or 
 | `annual_allowance` | number | no | `15000` | Km allowed per year by the contract |
 | `extra_km_cost` | number | no | `0` | Cost charged per km once the total allowance is exceeded |
 | `currency` | string | no | `€` | Currency symbol used for cost display |
+| `ahead_tolerance_pct` | number | no | `5` | Controls how far above the expected mileage pace a contract can go before switching from "On track" to "Ahead of pace". Set as a percentage. Default is 5%. |
 | `hide_car_image` | boolean | no | `false` | Hide the vehicle illustration |
 | `hide_progress_bar` | boolean | no | `false` | Hide the mileage progress bar |
 | `hide_current_mileage` | boolean | no | `false` | Hide the current mileage value |
