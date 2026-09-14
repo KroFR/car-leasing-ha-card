@@ -165,7 +165,7 @@ class CarLeasingCard extends HTMLElement {
         },
     };
     static STATUS_MARKER_COLORS = {
-        on_track: "#1b5e20",
+        on_track: "#388e3c",
         ahead: "#e65100",
         over: "#b71c1c",
     };
@@ -173,7 +173,7 @@ class CarLeasingCard extends HTMLElement {
     static FIELD_DEFAULTS = {
         start_mileage: 0,
         annual_allowance: 15000,
-        ahead_tolerance_pct: 5,
+        ahead_tolerance_pct: 0,
         extra_km_cost: 0,
         currency: "€",
         language: "auto",
