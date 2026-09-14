@@ -631,18 +631,24 @@ class CarLeasingCard extends HTMLElement {
         const gapKm = data.drivenKm - data.expectedKmToDate;
         const gapSign = gapKm >= 0 ? "+" : "";
         const gapLabel = `${gapSign}${this._fmtNum(gapKm, lang, numberFormat)} km`;
+        const badgeHidden = Boolean(cfg.hide_progress_badge);
+        const badgeBlock = badgeHidden
+             ? ""
+             : `<div class="progress-marker-badge" style="background:${markerColor}">${gapLabel}</div>`;
+        const progressMarkerBlock = `
+                <div class="progress-marker-wrap" style="left:${data.expectedPct}%" title="${this._t(lang, "expected_today")}">
+                  <div class="progress-marker-arrow" style="border-top-color:${markerColor}"></div>
+                  ${badgeBlock}
+                </div>`;
 
         const progressBlock = cfg.hide_progress_bar
              ? ""
              : `
-            <div class="progress-section">
+            <div class="progress-section${badgeHidden ? " no-badge" : ""}">
               <div class="progress-track">
                 <div class="progress-fill" style="width:${data.progressPct}%;background:${statusColors.color}"></div>
                 ${yearTicks}
-                <div class="progress-marker-wrap" style="left:${data.expectedPct}%" title="${this._t(lang, "expected_today")}">
-                  <div class="progress-marker-arrow" style="border-top-color:${markerColor}"></div>
-                  <div class="progress-marker-badge" style="background:${markerColor}">${gapLabel}</div>
-                </div>
+                ${progressMarkerBlock}
               </div>
               <div class="progress-labels">
                 <span>0 km</span>
@@ -778,12 +784,14 @@ class CarLeasingCard extends HTMLElement {
         .car-svg { width: 100%; max-width: 260px; height: auto; }
 
         .progress-section { margin: 34px 0 16px; }
+        .progress-section.no-badge { margin-top: 12px; }
         .progress-track { position: relative; height: 14px; border-radius: 7px; background: var(--divider-color); overflow: visible; }
         .progress-fill { position: absolute; left:0; top:0; height:100%; border-radius:7px; transition: width .4s ease; }
         .year-tick { position: absolute; top:0; height:100%; width:1px; background: var(--primary-text-color); opacity: 0.25; }
         .progress-marker-wrap {
           position: absolute; top: -32px; height: 28px;
           pointer-events: none;
+          filter: drop-shadow(0 1px 2px rgba(0,0,0,.35));
         }
         .progress-marker-arrow {
           position: absolute; left: 0; bottom: 0; transform: translateX(-50%);
@@ -793,10 +801,9 @@ class CarLeasingCard extends HTMLElement {
           border-top: 6px solid;
         }
         .progress-marker-badge {
-          position: absolute; left: 0; bottom: 7px; transform: translateX(-50%);
+          position: absolute; left: 0; bottom: 5px; transform: translateX(-50%);
           font-size: 0.68em; font-weight: 700; color: #fff;
           padding: 2px 6px; border-radius: 6px; white-space: nowrap;
-          box-shadow: 0 1px 3px rgba(0,0,0,.35);
         }
         .progress-labels { display:flex; justify-content:space-between; font-size:0.75em; color: var(--secondary-text-color); margin-top:4px; }
 
@@ -861,6 +868,7 @@ class CarLeasingCardEditor extends HTMLElement {
     static BOOLEAN_FIELDS = new Set([
                 "hide_car_image",
                 "hide_progress_bar",
+                "hide_progress_badge",
                 "hide_current_mileage",
                 "hide_driven",
                 "hide_expected_today",
@@ -1037,6 +1045,10 @@ class CarLeasingCardEditor extends HTMLElement {
             <div class="section-content">
               ${this._switchRow("hide_car_image", "Hide car illustration", "Hide the car illustration picture.")}
               ${this._switchRow("hide_progress_bar", "Hide progress bar", "Hide the mileage progress bar.")}
+              ${this._switchRow(
+                "hide_progress_badge",
+                "Hide progress badge",
+                "Hide the km-gap badge above the progress bar. The pointer arrow stays visible.")}
               ${this._switchRow(
                 "hide_current_mileage",
                 "Hide current mileage",
