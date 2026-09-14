@@ -10,7 +10,7 @@ A custom Lovelace card for [Home Assistant](https://www.home-assistant.io/) that
 
 | Light Theme | Dark Theme |
 |---|---|
-| <img width="500" height="433" alt="image" src="https://github.com/user-attachments/assets/83a82b8a-61d4-4d3a-9202-e7c1057517f0" /> | <img width="500" height="433" alt="image" src="https://github.com/user-attachments/assets/59553b3e-7399-459c-bf48-0be66a2ef6d1" /> |
+| <img width="501" height="461" alt="image" src="https://github.com/user-attachments/assets/882d4528-f077-4eb6-b5bd-0da73fc5d415" /> | <img width="502" height="462" alt="image" src="https://github.com/user-attachments/assets/d0645885-d803-468b-aaeb-c3379ed7608c" /> |
 
 | Information | Description |
 |------------|-------------|
@@ -71,9 +71,10 @@ Edit any dashboard and select **Add Card**. Search for **Car Leasing Card**, or 
 | `annual_allowance` | number | no | `15000` | Km allowed per year by the contract |
 | `extra_km_cost` | number | no | `0` | Cost charged per km once the total allowance is exceeded |
 | `currency` | string | no | `€` | Currency symbol used for cost display |
-| `ahead_tolerance_pct` | number | no | `5` | Controls how far above the expected mileage pace a contract can go before switching from "On track" to "Ahead of pace". Set as a percentage. Default is 5%. |
+| `ahead_tolerance_pct` | number | no | `0` | Controls how far above the expected mileage pace a contract can go before switching from "On track" to "Ahead of pace". Set as a percentage. |
 | `hide_car_image` | boolean | no | `false` | Hide the vehicle illustration |
 | `hide_progress_bar` | boolean | no | `false` | Hide the mileage progress bar |
+| `hide_progress_badge` | boolean | no | `false` | Hide the km-gap badge above the progress bar |
 | `hide_current_mileage` | boolean | no | `false` | Hide the current mileage value |
 | `hide_driven` | boolean | no | `false` | Hide the driven-since-start value |
 | `hide_expected_today` | boolean | no | `false` | Hide the expected-by-today value |
@@ -86,17 +87,17 @@ Edit any dashboard and select **Add Card**. Search for **Car Leasing Card**, or 
 
 ### Minimal configuration
 
-Only the required entity, everything else falls back to defaults.
+Only the required entities, everything else falls back to defaults.
 
 | Light Theme | Dark Theme |
 |---|---|
-| <img width="501" height="419" alt="image" src="https://github.com/user-attachments/assets/74d8424a-98f8-4a1a-ac12-35cd8800db64" /> | <img width="503" height="426" alt="image" src="https://github.com/user-attachments/assets/65745d33-ec98-475a-bb1a-ddb9da6a0413" /> |
+| <img width="471" height="448" alt="image" src="https://github.com/user-attachments/assets/5c11b765-a077-4985-b81f-366635ede752" /> | <img width="474" height="450" alt="image" src="https://github.com/user-attachments/assets/cb3b6adb-437b-4a70-887c-98451d39bd4b" /> |
 
 ```yaml
 type: custom:car-leasing-card
 mileage_entity: sensor.car_odometer
-contract_start: "2024-06-01"
-contract_end: "2027-06-01"
+contract_end: '2029-09-12'
+contract_start: '2025-08-13'
 ```
 
 ### Full configuration
@@ -105,31 +106,30 @@ The complete configuration with leasing on track indicator
 
 | Light Theme | Dark Theme |
 |---|---|
-| <img width="502" height="435" alt="image" src="https://github.com/user-attachments/assets/f8653722-d866-4b18-8a79-65c7a121050a" /> | <img width="504" height="438" alt="image" src="https://github.com/user-attachments/assets/512d9456-0945-45cb-81a5-7403860e80a7" /> |
+| <img width="471" height="459" alt="image" src="https://github.com/user-attachments/assets/fee29edf-db5f-40e9-9489-bed20573a086" /> | <img width="474" height="461" alt="image" src="https://github.com/user-attachments/assets/2457daf8-930f-48f9-afa3-c76a1b57a9d5" /> |
 
 ```yaml
 type: custom:car-leasing-card
-name: My Tesla Model 3
 mileage_entity: sensor.car_odometer
-contract_start: "2024-06-01"
-contract_end: "2027-06-01"
-vehicle_type: suv
+name: Wave Rider Van
+contract_end: '2029-09-12'
+contract_start: '2025-08-13'
 language: en
-start_mileage: 12
-annual_allowance: 20000
+annual_allowance: 25000
 extra_km_cost: 0.12
-currency: "€"
+currency: €
+vehicle_type: van
 ```
 
 The complete configuration with leasing over limit and cost estimation
 
 | Light Theme | Dark Theme |
 |---|---|
-| <img width="501" height="474" alt="image" src="https://github.com/user-attachments/assets/359193eb-69cd-446f-b915-608a4e8bd66f" /> | <img width="501" height="475" alt="image" src="https://github.com/user-attachments/assets/2036bf70-ff08-4e90-aff8-94a6309ab62f" /> |
+| <img width="472" height="499" alt="image" src="https://github.com/user-attachments/assets/e247d8d5-9c5d-45c4-aec0-28e7c9567fd2" /> | <img width="473" height="500" alt="image" src="https://github.com/user-attachments/assets/b54a5c49-d950-473c-a8e8-f0cbdcc8262c" /> |
 
 ```yaml
 type: custom:car-leasing-card
-mileage_entity: sensor.duster_he135zn_mileage
+mileage_entity: sensor.car_odometer
 contract_end: '2027-09-12'
 contract_start: '2025-08-13'
 hide_contract_ends: true
@@ -144,16 +144,18 @@ currency: "$"
 
 | Light Theme | Dark Theme |
 |---|---|
-| <img width="502" height="271" alt="image" src="https://github.com/user-attachments/assets/a5dad5d4-8651-4d29-8111-88ccd372242d" /> | <img width="502" height="273" alt="image" src="https://github.com/user-attachments/assets/720a82b5-e577-448a-882c-cb4d996e5090" /> |
+| <img width="470" height="286" alt="image" src="https://github.com/user-attachments/assets/5b7eea2c-83aa-479d-a74d-07dff699d541" /> | <img width="472" height="285" alt="image" src="https://github.com/user-attachments/assets/45d13568-8fd3-443a-9b7b-f506b6c58016" /> |
 
 ```yaml
 type: custom:car-leasing-card
 mileage_entity: sensor.car_odometer
-contract_start: "2024-06-01"
-contract_end: "2027-06-01"
-hide_contract_ends: true
+name: Tesla Model 3
+contract_end: '2029-09-12'
+contract_start: '2025-08-13'
 hide_car_image: true
 hide_current_mileage: true
+annual_allowance: 21000
+hide_expected_today: true
 ```
 
 ## 📄 License
