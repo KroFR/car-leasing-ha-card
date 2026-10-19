@@ -1027,7 +1027,7 @@ class CarLeasingCardEditor extends HTMLElement {
 		  <details class="section" open>
 			${this._sectionSummary(CarLeasingCardEditor.SECTION_ICONS.contract, "Contract")}
 			<div class="section-content"><div class="entity-grid">
-			  ${this._entityPicker("mileage_entity", CarLeasingCardEditor.EDITOR_LABELS.mileage_entity, ["sensor"])}
+			  <div class="field"><span>${CarLeasingCardEditor.EDITOR_LABELS.mileage_entity}</span><ha-selector data-config="mileage_entity"></ha-selector></div>
 			  <div class="grid">
 				<div class="field"><span>${CarLeasingCardEditor.EDITOR_LABELS.contract_start}</span><ha-selector data-config="contract_start"></ha-selector></div>
 				<div class="field"><span>${CarLeasingCardEditor.EDITOR_LABELS.contract_end}</span><ha-selector data-config="contract_end"></ha-selector></div>
@@ -1106,6 +1106,15 @@ class CarLeasingCardEditor extends HTMLElement {
 					select: {
 						mode: "dropdown",
 						options: this._languageOptions()
+					}
+				};
+			} else if (key === "mileage_entity") {
+				selector.selector = {
+					entity: {
+						filter: {
+							domain: "sensor",
+							device_class: "distance"
+						}
 					}
 				};
 			} else if (key === "vehicle_type") {
