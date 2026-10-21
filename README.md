@@ -1,4 +1,4 @@
-[![HACS Custom](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://hacs.xyz/)
+[![HACS Default](https://img.shields.io/badge/HACS-Default-green.svg)](https://hacs.xyz/)
 [![GitHub Release](https://img.shields.io/github/v/release/KroFR/car-leasing-ha-card)](https://github.com/KroFR/car-leasing-ha-card/releases)
 [![Static Badge](https://img.shields.io/badge/Home_Assistant-2024.1+-blue)](https://www.home-assistant.io/)
 [![HACS Validation](https://github.com/KroFR/car-leasing-ha-card/actions/workflows/hacs.yaml/badge.svg)](https://github.com/KroFR/car-leasing-ha-card/actions/workflows/hacs.yaml)
@@ -35,21 +35,23 @@ A custom Lovelace card for [Home Assistant](https://www.home-assistant.io/) that
 ## 📦 Installation
 
 ### HACS (recommended)
+Use this link to directly go to the repository in HACS:
 
-1. Open HACS in Home Assistant.
-2. Click on the three dots in the top right corner.
-3. Select **Custom repositories**.
-4. Add this repository URL: `https://github.com/KroFR/car-leasing-ha-card`
-5. Select **Dashboard** as the category.
-6. Click **Add**.
-7. Search for **Car Leasing Card** and install it.
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=KroFR&repository=car-leasing-ha-card)
+
+or
+
+1. Install HACS if you don't have it already
+2. Open HACS in Home Assistant
+3. Search for "Car Leasing Card"
+4. Click the download button
 
 ### Manual
 
 1. Download `car-leasing-card.js` from the `dist` folder of this repository.
-2. Copy it to `/local/community/car-leasing-ha-card/car-leasing-card.js` in your Home Assistant instance.
+2. Copy it to `<config>/www/car-leasing-card.js` in your Home Assistant instance.
 3. Go to **Settings > Dashboards > three-dot menu > Resources**.
-4. Select **Add resource**, set the URL to `/hacsfiles/car-leasing-ha-card/car-leasing-card.js?v=1`, and set resource type to **JavaScript module**.
+4. Select **Add resource**, set the URL to `/local/car-leasing-card.js?v=1`, and set resource type to **JavaScript module**.
 5. Refresh your browser.
 
 ### Adding the card
