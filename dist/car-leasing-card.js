@@ -8,7 +8,7 @@
  *
  */
 
-const CARD_VERSION = "1.0.5";
+const CARD_VERSION = "1.0.6";
 
 /* ---------------------------------------------------------------------- */
 /*  Main card                                                             */
@@ -432,6 +432,15 @@ class CarLeasingCard extends HTMLElement {
 		}).format(rounded);
 	}
 
+	_escapeHtml(value) {
+		return String(value)
+			.replace(/&/g, "&amp;")
+			.replace(/</g, "&lt;")
+			.replace(/>/g, "&gt;")
+			.replace(/"/g, "&quot;")
+			.replace(/'/g, "&#039;");
+	}
+
 	_fmtCurrency(n, currency, lang, numberFormat) {
 		if (!isFinite(n))
 			return "–";
@@ -475,7 +484,7 @@ class CarLeasingCard extends HTMLElement {
 			}).format(
 				new Date(dateStr));
 		} catch (e) {
-			return dateStr;
+			return this._escapeHtml(dateStr);
 		}
 	}
 
@@ -608,11 +617,11 @@ class CarLeasingCard extends HTMLElement {
 			return;
 		}
 
-		const title = cfg.name || this._t(lang, "title");
+		const title = this._escapeHtml(cfg.name || this._t(lang, "title"));
 		const statusColors = CarLeasingCard.STATUS_COLORS[data.status];
 		const markerColor = CarLeasingCard.STATUS_MARKER_COLORS[data.status];
 		const statusLabel = this._t(lang, `status_${data.status}`);
-		const currency = cfg.currency || CarLeasingCard.FIELD_DEFAULTS.currency;
+		const currency = this._escapeHtml(cfg.currency || CarLeasingCard.FIELD_DEFAULTS.currency);
 
 		const yearTicks = data.yearMarkers
 			.map(
