@@ -244,7 +244,9 @@ class CarLeasingCard extends HTMLElement {
 		const key = String(value ?? "").trim();
 		if (CarLeasingCard.VEHICLE_TYPES.some((t) => t.value === key))
 			return key;
-		return CarLeasingCard.VEHICLE_TYPE_ALIASES[key] || CarLeasingCard.FIELD_DEFAULTS.vehicle_type;
+		return Object.prototype.hasOwnProperty.call(CarLeasingCard.VEHICLE_TYPE_ALIASES, key)
+			? CarLeasingCard.VEHICLE_TYPE_ALIASES[key]
+			: CarLeasingCard.FIELD_DEFAULTS.vehicle_type;
 	}
 
 	// Only #rgb and #rrggbb are accepted: the value ends up in a style attribute.
@@ -329,7 +331,7 @@ class CarLeasingCard extends HTMLElement {
 	}
 
 	_clamp(v, min, max) {
-		return Math.min(max, Math.max(min, v));
+		return Number.isNaN(v) ? min : Math.min(max, Math.max(min, v));
 	}
 
 	_daysBetween(a, b) {
@@ -432,7 +434,8 @@ class CarLeasingCard extends HTMLElement {
 	_lang() {
 		const configLanguage = this._config.language;
 		if (configLanguage && configLanguage !== "auto") {
-			return CarLeasingCard.TRANSLATIONS[configLanguage] ? configLanguage : "en";
+			const code = String(configLanguage);
+			return Object.prototype.hasOwnProperty.call(CarLeasingCard.TRANSLATIONS, code) ? code : "en";
 		}
 		const hassLang = (
 			(this._hass && (this._hass.locale?.language || this._hass.language)) || "en").split("-")[0];
@@ -491,7 +494,7 @@ class CarLeasingCard extends HTMLElement {
 
 		const YEAR_EPS = 0.01;
 		const yearMarkers = [];
-		if (totalYears > 1 + YEAR_EPS) {
+		if (totalYears > 1 + YEAR_EPS && totalYears <= 10) {
 			const wholeYears = Math.floor(totalYears + YEAR_EPS);
 			for (let k = 1; k <= wholeYears; k++) {
 				if (k >= totalYears - YEAR_EPS)
