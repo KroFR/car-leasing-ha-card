@@ -1,0 +1,27 @@
+Side profile view of a modern European semi truck: a cab-over tractor unit pulling a box semi-trailer, facing right, perfectly centered, full vehicle visible.
+
+Clean flat vector illustration in a strict cel-shaded style, designed to be traced into a clean SVG. Clearly recognizable articulated truck silhouette: flat-fronted cab-over tractor with no hood, tall high-roof sleeper cab, roof air deflector blending the cab roof into the trailer height, short tractor chassis with two axles, long tall rectangular box trailer coupled behind the cab, trailer roof perfectly flat and horizontal, three closely spaced trailer axles at the rear, trailer landing legs under the front of the trailer. Very long horizontal proportions.
+
+Solid flat color fills only. No gradients, no soft shading, no texture, no noise, no blur, no glow. Every color area is a single uniform flat color with crisp, sharp edges. Shading uses only a few large, smooth, clearly separated flat shapes.
+
+Limited palette of about 13 colors:
+
+tractor cab and trailer box: pure white #FFFFFF, light gray #EEEEEE for soft shade, gray #DCDCDC for lower shade
+outline: very dark charcoal #1A1E23
+panel lines: medium gray #8A8D90
+chassis frame, bumper, cab steps, side skirts, mudguards, fuel tank, landing legs and air deflector frame: dark gray #3A3F45
+windows: dark blue-gray #3A4A5A with one lighter flat reflection band #5E6E7E
+tires: dark charcoal #2E3237
+wheels: light gray #C8CCD0 with dark gray #4A4F55 details
+headlight: white #F7FAFC, amber indicator #F4A62A
+rear light: red #D9363E with darker red #A82830
+
+Cab and trailer panels use neutral white and neutral gray only, with no colored tint, so the body color is replaceable through CSS. The tractor cab and the trailer box are clearly separated vector shapes with a visible gap between them, so each can receive its own color. Chassis, steps, skirts, guards, windows, tires, wheels and lights keep their own fixed colors.
+
+Bold, uniform, smooth outer outline of constant thickness around the whole silhouette. Thinner uniform panel lines for the cab door and the trailer edges. All lines smooth and continuous, with no jagged edges, no sketchy strokes, no broken lines.
+
+Large, simple shapes. One cab door with simple handle, side window, large white side mirror on a dark arm, dark cab entry steps, simple fuel tank under the cab, front headlight low on the cab front, plain trailer side panel with a thin vertical rear door edge, dark side skirt between tractor and trailer axles, red rear light at the bottom rear corner of the trailer, simple steel wheels, dual wheels on all rear axles. No small decorative details, no tiny highlights, no fine grille texture, no exhaust stacks, no chrome. The silhouette must remain recognizable at 120 px wide on a Home Assistant dashboard.
+
+Strict 90-degree side view. All wheels perfectly aligned horizontally. Isolated vehicle on a pure transparent background with about 8% clear margin.
+
+No driver, no environment, no road, no ground line, no cast shadow, no text, no license plate text, no logo, no branding, no company livery, no lettering on the trailer, no perspective, no three-quarter view, no 3D rendering, no photorealism.

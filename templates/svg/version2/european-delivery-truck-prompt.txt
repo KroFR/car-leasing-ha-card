@@ -1,0 +1,27 @@
+Side profile view of a modern European medium-duty delivery truck with a box body, facing right, perfectly centered, full vehicle visible.
+
+Clean flat vector illustration in a strict cel-shaded style, designed to be traced into a clean SVG. Clearly recognizable European delivery truck silhouette: flat-fronted cab-over cab with no hood, tall upright windshield, short single-row cab, clear vertical gap between cab and cargo box, large tall rectangular cargo box behind the cab, cargo box roof higher than the cab roof, visible dark chassis frame under the box, short front overhang, longer rear overhang, two axles with a single front wheel and dual rear wheels.
+
+Solid flat color fills only. No gradients, no soft shading, no texture, no noise, no blur, no glow. Every color area is a single uniform flat color with crisp, sharp edges. Shading uses only a few large, smooth, clearly separated flat shapes.
+
+Limited palette of about 13 colors:
+
+cab and cargo box: pure white #FFFFFF, light gray #EEEEEE for soft shade, gray #DCDCDC for lower shade
+outline: very dark charcoal #1A1E23
+panel lines: medium gray #8A8D90
+chassis frame, bumpers, cab step, side underrun guard, mudguards and fuel tank: dark gray #3A3F45
+windows: dark blue-gray #3A4A5A with one lighter flat reflection band #5E6E7E
+tires: dark charcoal #2E3237
+wheels: light gray #C8CCD0 with dark gray #4A4F55 details
+headlight: white #F7FAFC, amber indicator #F4A62A
+rear light: red #D9363E with darker red #A82830
+
+Cab and cargo box panels use neutral white and neutral gray only, with no colored tint, so the body color is replaceable through CSS. The cab and the cargo box are clearly separated vector shapes so each can receive its own color. Chassis, bumpers, steps, guards, windows, tires, wheels and lights keep their own fixed colors.
+
+Bold, uniform, smooth outer outline of constant thickness around the whole silhouette. Thinner uniform panel lines for the cab door and the cargo box edges. All lines smooth and continuous, with no jagged edges, no sketchy strokes, no broken lines.
+
+Large, simple shapes. One cab door with simple handle, large side window, large white side mirror on a dark arm, dark cab entry step below the door, plain cargo box side panel with a thin vertical rear door edge, dark side underrun guard between the axles, simple fuel tank under the cab, front headlight low on the cab front, red rear light at the bottom rear corner, simple steel wheels. No small decorative details, no tiny highlights, no fine grille texture, no roof spoiler, no tail lift. The silhouette must remain recognizable at 120 px wide on a Home Assistant dashboard.
+
+Strict 90-degree side view. All wheels perfectly aligned horizontally. Isolated vehicle on a pure transparent background with about 8% clear margin.
+
+No driver, no passengers, no environment, no road, no ground line, no cast shadow, no text, no license plate text, no logo, no branding, no company livery, no lettering on the cargo box, no perspective, no three-quarter view, no 3D rendering, no photorealism.

@@ -1,0 +1,27 @@
+Side profile view of a modern European coachbuilt motorhome with an over-cab sleeping compartment (Class C, alcove type), facing right, perfectly centered, full vehicle visible.
+
+Clean flat vector illustration in a strict cel-shaded style, designed to be traced into a clean SVG. Clearly recognizable motorhome silhouette: van-style front cab with short sloping hood and raked windshield, rounded alcove compartment overhanging above the cab roof, tall boxy living cell behind the cab, long flat horizontal roofline, vertical rear wall, long rear overhang, two axles with single wheels.
+
+Solid flat color fills only. No gradients, no soft shading, no texture, no noise, no blur, no glow. Every color area is a single uniform flat color with crisp, sharp edges. Shading uses only a few large, smooth, clearly separated flat shapes.
+
+Limited palette of about 13 colors:
+
+cab and living cell: pure white #FFFFFF, light gray #EEEEEE for soft shade, gray #DCDCDC for lower shade
+outline: very dark charcoal #1A1E23
+panel lines: medium gray #8A8D90
+bumpers, lower side skirt, entry step, window frames and roof hatch: dark gray #3A3F45
+windows: dark blue-gray #3A4A5A with one lighter flat reflection band #5E6E7E
+tires: dark charcoal #2E3237
+wheels: light gray #C8CCD0 with dark gray #4A4F55 details
+headlight: white #F7FAFC, amber indicator #F4A62A
+rear light: red #D9363E with darker red #A82830
+
+Cab and living cell panels use neutral white and neutral gray only, with no colored tint, so the body color is replaceable through CSS. Bumpers, skirt, step, window frames, windows, tires, wheels and lights keep their own fixed colors.
+
+Bold, uniform, smooth outer outline of constant thickness around the whole silhouette. Thinner uniform panel lines for the cab door, the habitation door and service hatches. All curves smooth and continuous, with no jagged edges, no sketchy strokes, no broken lines.
+
+Large, simple shapes. Cab door with simple handle and side window, white side mirror, small side window in the alcove, two or three rectangular living cell windows with rounded corners and dark frames, tall habitation door with a small window between the axles, dark entry step under the habitation door, one or two plain service hatches low on the cell, small roof hatch, dark lower side skirt, front headlight, tall vertical red rear light at the rear corner, simple 5-spoke wheels. No small decorative details, no tiny highlights, no fine grille texture, no awning, no bike rack, no solar panels, no ladder, no roof box. The silhouette must remain recognizable at 120 px wide on a Home Assistant dashboard.
+
+Strict 90-degree side view. Both wheels perfectly aligned horizontally. Isolated vehicle on a pure transparent background with about 8% clear margin.
+
+No driver, no passengers, no environment, no road, no ground line, no cast shadow, no text, no license plate text, no logo, no branding, no decorative side stripes, no graphic decals, no perspective, no three-quarter view, no 3D rendering, no photorealism.

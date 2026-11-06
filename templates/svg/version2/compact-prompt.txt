@@ -1,0 +1,26 @@
+Side profile view of a modern compact hatchback car, facing right, perfectly centered, full vehicle visible.
+
+Clean flat vector illustration in a strict cel-shaded style, designed to be traced into a clean SVG. Clearly recognizable compact hatchback silhouette, short hood, compact passenger cabin, slightly sloping roofline and short rear overhang.
+
+Solid flat color fills only. No gradients, no soft shading, no texture, no noise, no blur, no glow. Every color area is a single uniform flat color with crisp, sharp edges. Shading uses only a few large, smooth, clearly separated flat shapes.
+
+Limited palette of about 12 colors:
+
+body: pure white #FFFFFF, light gray #EEEEEE for soft shade, gray #DCDCDC for lower shade
+outline: very dark charcoal #1A1E23
+panel lines: medium gray #8A8D90
+windows: dark blue-gray #3A4A5A with one lighter flat reflection band #5E6E7E
+tires: dark charcoal #2E3237
+wheels: light gray #C8CCD0 with dark gray #4A4F55 spoke gaps
+headlight: white #F7FAFC, amber indicator #F4A62A
+rear light: red #D9363E with darker red #A82830
+
+Body panels use neutral white and neutral gray only, with no colored tint, so the body color is replaceable through CSS.
+
+Bold, uniform, smooth outer outline of constant thickness around the whole silhouette. Thinner uniform panel lines for doors and fuel cap. All curves smooth and continuous, with no jagged edges, no sketchy strokes, no broken lines.
+
+Large, simple shapes. Minimal door lines, simple door handles, white side mirror, front headlight, red rear light, simple 5-spoke alloy wheels. No small decorative details, no tiny highlights, no fine grille texture. The silhouette must remain recognizable at 120 px wide on a Home Assistant dashboard.
+
+Strict 90-degree side view. Both wheels perfectly aligned horizontally. Isolated vehicle on a pure transparent background with about 8% clear margin.
+
+No driver, no passengers, no environment, no road, no ground line, no cast shadow, no text, no license plate text, no logo, no branding, no perspective, no three-quarter view, no 3D rendering, no photorealism.
