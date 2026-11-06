@@ -268,16 +268,17 @@ class CarLeasingCard extends HTMLElement {
 	}
 
 	setConfig(config) {
-		if (!config.mileage_entity) {
-			throw new Error("You need to define a mileage_entity");
-		}
-		if (!config.contract_start || !config.contract_end) {
-			throw new Error("You need to define contract_start and contract_end");
-		}
+		// Keep incomplete configurations renderable while the visual editor is
+		// setting up a new card. _render() uses temporary preview data until the
+		// required mileage sensor and contract dates are provided.
 		this._config = {
 			...config
 		};
 		this._lastRenderKey = null;
+		if (this._hass && this.shadowRoot) {
+			this._lastRenderKey = this._renderKey();
+			this._render();
+		}
 	}
 
 	set hass(hass) {
@@ -533,8 +534,66 @@ class CarLeasingCard extends HTMLElement {
 		const lang = this._lang();
 		const numberFormat = this._hass?.locale?.number_format;
 		const cfg = this._config;
-		const data = this._computeData();
+		let data = this._computeData();
 		const darkMode = Boolean(this._hass?.themes?.darkMode);
+
+		// While no mileage sensor is selected, show temporary values so a new card has
+		// a preview. They are never saved. As soon as a sensor is selected, no
+		// temporary value is displayed anymore.
+		if (data.error && !cfg.mileage_entity) {
+			const previewEnd = new Date();
+			previewEnd.setFullYear(previewEnd.getFullYear() + 2);
+			const previewAnnualAllowance = Number(
+				cfg.annual_allowance ?? CarLeasingCard.FIELD_DEFAULTS.annual_allowance);
+			const previewTotalAllowedKm = previewAnnualAllowance * 3;
+			const previewCurrentMileage = Number(
+				cfg.start_mileage ?? CarLeasingCard.FIELD_DEFAULTS.start_mileage) + previewAnnualAllowance;
+			data = {
+				currentMileage: previewCurrentMileage,
+				drivenKm: previewAnnualAllowance,
+				totalAllowedKm: previewTotalAllowedKm,
+				expectedKmToDate: previewAnnualAllowance,
+				progressPct: 100 / 3,
+				expectedPct: 100 / 3,
+				yearMarkers: [{ year: 1, pct: 100 / 3 }, { year: 2, pct: 200 / 3 }],
+				remainingKm: previewTotalAllowedKm - previewAnnualAllowance,
+				extraKm: 0,
+				extraCost: 0,
+				daysLeft: 730,
+				contractEnded: false,
+				status: "on_track",
+				endDate: previewEnd.toISOString().slice(0, 10),
+			};
+		}
+
+		if (data.error === "check_config") {
+			const hintTitle = this._escapeHtml(cfg.name || this._t(lang, "title"));
+			const hintCarHidden = !this._show("car_image");
+			const hintVehicle = hintCarHidden
+				? ""
+				: `<div class="car-wrap${cfg.flip_vehicle === true ? " flip" : ""}" style="--vehicle-color:${CarLeasingCard._safeColor(cfg.vehicle_color)}">${this._carSvgForType(cfg.vehicle_type || CarLeasingCard.FIELD_DEFAULTS.vehicle_type)}</div>`;
+			const hintHeaderParts = [];
+			if (this._show("title_icon"))
+				hintHeaderParts.push(`<div class="h-icon"><ha-icon icon="mdi:car"></ha-icon></div>`);
+			if (this._show("title"))
+				hintHeaderParts.push(`<div class="title">${hintTitle}</div>`);
+			const hintHeader = hintHeaderParts.length
+				? `<div class="header${hintCarHidden ? " no-car" : ""}">${hintHeaderParts.join("")}</div>`
+				: "";
+			this.shadowRoot.innerHTML = `
+		  <style>${this._baseStyles()}</style>
+		  <ha-card>
+			<div class="card-content${darkMode ? " dark-mode" : ""}">
+			  ${hintHeader}
+			  ${hintVehicle}
+			  <div class="error-state hint-state">
+				<ha-icon icon="mdi:information-outline"></ha-icon>
+				<div class="error-sub">${this._t(lang, "check_config")}</div>
+			  </div>
+			</div>
+		  </ha-card>`;
+			return;
+		}
 
 		if (data.error) {
 			this.shadowRoot.innerHTML = `
@@ -711,6 +770,8 @@ class CarLeasingCard extends HTMLElement {
 		.error-state ha-icon { color: var(--error-color, #f44336); --mdc-icon-size: 28px; }
 		.error-title { font-weight: 600; color: var(--primary-text-color); }
 		.error-sub { font-size: 0.85em; }
+		.hint-state { margin-top: 8px; }
+		.hint-state ha-icon { color: var(--secondary-text-color); }
 
 		.header { display:flex; align-items:center; gap:10px; margin-bottom: 4px; }
 		.header.no-car { margin-bottom: 20px; }
@@ -877,7 +938,9 @@ class CarLeasingCardEditor extends HTMLElement {
 
 	set hass(hass) {
 		this._hass = hass;
-		if (!this._rendered) {
+		// Home Assistant can set hass before setConfig. The first render decides
+		// whether Contract starts open, so it must wait for the configuration.
+		if (!this._rendered && this._config) {
 			this._render();
 			this._rendered = true;
 		}
@@ -998,7 +1061,7 @@ class CarLeasingCardEditor extends HTMLElement {
 			  <div class="field"><span>${CarLeasingCardEditor.EDITOR_LABELS.language}</span><ha-selector data-config="language"></ha-selector></div>
 			</div></div>
 		  </details>
-		  <details class="section" open>
+		  <details class="section"${this._config?.mileage_entity ? "" : " open"}>
 			${this._sectionSummary(CarLeasingCardEditor.SECTION_ICONS.contract, "Contract")}
 			<div class="section-content"><div class="entity-grid">
 			  <div class="field"><span>${CarLeasingCardEditor.EDITOR_LABELS.mileage_entity}</span><ha-selector data-config="mileage_entity"></ha-selector></div>
