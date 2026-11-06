@@ -180,6 +180,23 @@ class CarLeasingCard extends HTMLElement {
 		vehicle_type: "sedan",
 	};
 
+	// Elements the user can show or hide. All are visible by default.
+	// Config key: show_<name>: false hides the element.
+	// Legacy key hide_<name>: true is still honoured for existing configs.
+	static VISIBILITY_KEYS = [
+		"title_icon",
+		"title",
+		"status_chip",
+		"car_image",
+		"progress_badge",
+		"current_mileage",
+		"driven",
+		"expected_today",
+		"remaining",
+		"days_left",
+		"contract_ends",
+		"extra_alert",
+	];
 	static NUMBER_SEPARATORS = {
 		comma_decimal: { group: ",", decimal: "." },
 		decimal_comma: { group: ".", decimal: "," },
@@ -389,6 +406,10 @@ class CarLeasingCard extends HTMLElement {
 		return this._t(lang, "year_marker").replace("{n}", n);
 	}
 
+	_show(name) {
+		const cfg = this._config || {};
+		return cfg[`show_${name}`] !== false && cfg[`hide_${name}`] !== true;
+	}
 	_clamp(v, min, max) {
 		return Math.min(max, Math.max(min, v));
 	}
@@ -629,7 +650,7 @@ class CarLeasingCard extends HTMLElement {
 `<div class="year-tick" style="left:${m.pct}%" title="${this._tYearMarker(lang, m.year)}"></div>`)
 			.join("");
 
-		const carHidden = Boolean(cfg.hide_car_image);
+		const carHidden = !this._show("car_image");
 		const vehicleType = cfg.vehicle_type || CarLeasingCard.FIELD_DEFAULTS.vehicle_type;
 
 		const carWrapBlock = carHidden
@@ -639,7 +660,7 @@ class CarLeasingCard extends HTMLElement {
 		const gapKm = data.drivenKm - data.expectedKmToDate;
 		const gapSign = gapKm >= 0 ? "+" : "";
 		const gapLabel = `${gapSign}${this._fmtNum(gapKm, lang, numberFormat)} km`;
-		const badgeHidden = Boolean(cfg.hide_progress_badge);
+		const badgeHidden = !this._show("progress_badge");
 		const badgeBlock = badgeHidden
 			 ? ""
 			 : `<div class="progress-marker-badge" style="background:${markerColor}">${gapLabel}</div>`;
@@ -665,28 +686,28 @@ class CarLeasingCard extends HTMLElement {
 			</div>`;
 
 		const statRows = [];
-		if (!cfg.hide_current_mileage) {
+		if (this._show("current_mileage")) {
 			statRows.push(`
 			  <div class="stat">
 				<span class="stat-label">${this._t(lang, "current_mileage")}</span>
 				<span class="stat-value">${this._fmtNum(data.currentMileage, lang, numberFormat)} km</span>
 			  </div>`);
 		}
-		if (!cfg.hide_driven) {
+		if (this._show("driven")) {
 			statRows.push(`
 			  <div class="stat">
 				<span class="stat-label">${this._t(lang, "driven")}</span>
 				<span class="stat-value">${this._fmtNum(data.drivenKm, lang, numberFormat)} km</span>
 			  </div>`);
 		}
-		if (!cfg.hide_expected_today) {
+		if (this._show("expected_today")) {
 			statRows.push(`
 			  <div class="stat">
 				<span class="stat-label">${this._t(lang, "expected_today")}</span>
 				<span class="stat-value">${this._fmtNum(data.expectedKmToDate, lang, numberFormat)} km</span>
 			  </div>`);
 		}
-		if (!cfg.hide_remaining) {
+		if (this._show("remaining")) {
 			statRows.push(`
 			  <div class="stat">
 				<span class="stat-label">${this._t(lang, "remaining")}</span>
@@ -696,14 +717,14 @@ class CarLeasingCard extends HTMLElement {
 					numberFormat)} km</span>
 			  </div>`);
 		}
-		if (!cfg.hide_days_left) {
+		if (this._show("days_left")) {
 			statRows.push(`
 			  <div class="stat">
 				<span class="stat-label">${this._t(lang, "days_left")}</span>
 				<span class="stat-value">${data.contractEnded ? this._t(lang, "contract_ended") : data.daysLeft}</span>
 			  </div>`);
 		}
-		if (!cfg.hide_contract_ends) {
+		if (this._show("contract_ends")) {
 			statRows.push(`
 			  <div class="stat">
 				<span class="stat-label">${this._t(lang, "contract_ends")}</span>
@@ -720,7 +741,7 @@ class CarLeasingCard extends HTMLElement {
 			 : "";
 
 		const extraBlock =
-			data.extraKm > 0 && !cfg.hide_extra_alert
+			data.extraKm > 0 && this._show("extra_alert")
 			 ? `
 		<div class="extra-banner">
 		  <ha-icon icon="mdi:cash-alert"></ha-icon>
@@ -736,13 +757,13 @@ class CarLeasingCard extends HTMLElement {
 			 : "";
 
 		const headerParts = [];
-		if (!cfg.hide_title_icon) {
+		if (this._show("title_icon")) {
 			headerParts.push(`<div class="h-icon"><ha-icon icon="mdi:car"></ha-icon></div>`);
 		}
-		if (!cfg.hide_title) {
+		if (this._show("title")) {
 			headerParts.push(`<div class="title">${title}</div>`);
 		}
-		if (!cfg.hide_status_chip) {
+		if (this._show("status_chip")) {
 			headerParts.push(`
 			  <div class="status-chip" style="color:${statusColors.color};background:${statusColors.bg}">
 				${statusLabel}
@@ -889,20 +910,8 @@ class CarLeasingCardEditor extends HTMLElement {
 		"extra_km_cost",
 	]);
 
-	static BOOLEAN_FIELDS = new Set([
-				"hide_car_image",
-				"hide_title_icon",
-				"hide_title",
-				"hide_status_chip",
-				"hide_progress_badge",
-				"hide_current_mileage",
-				"hide_driven",
-				"hide_expected_today",
-				"hide_remaining",
-				"hide_days_left",
-				"hide_contract_ends",
-				"hide_extra_alert",
-			]);
+	static VISIBILITY_FIELDS = new Set(
+		CarLeasingCard.VISIBILITY_KEYS.map((name) => `show_${name}`));
 
 	static LANGUAGE_OPTIONS = CarLeasingCardEditor._buildLanguageOptions();
 
@@ -987,14 +996,23 @@ class CarLeasingCardEditor extends HTMLElement {
 			",")}" allow-custom-entity></ha-entity-picker></div>`;
 	}
 
-	_switchRow(key, label, description) {
+	_switchRow(key, label, description = "") {
 		return `
 		<div class="switch-row">
 		  <div class="switch-text">
 			<span class="switch-label">${label}</span>
-			<span class="field-description">${description}</span>
+			${description ? `<span class="field-description">${description}</span>` : ""}
 		  </div>
 		  <ha-switch data-config="${key}"></ha-switch>
+		</div>`;
+	}
+
+	_switchGroup(title, rows, columns = 1) {
+		return `
+		<div class="switch-group">
+		  <div class="group-title">${title}</div>
+		  <div class="switch-grid${columns === 2 ? " two-cols" : ""}">${rows.join("")}
+		  </div>
 		</div>`;
 	}
 	_render() {
@@ -1040,7 +1058,15 @@ class CarLeasingCardEditor extends HTMLElement {
 		  .switch-label { color: var(--primary-text-color); font-size: 14px; }
 		  .field-description { color: var(--secondary-text-color); font-size: 12px; line-height: 1.4; }
 		  ha-switch { flex-shrink: 0; }
-		  @media (max-width:600px) { .grid { grid-template-columns: 1fr; } }
+		  .appearance-hint { color: var(--secondary-text-color); font-size: 12px; }
+		  .switch-group { display: grid; gap: 4px; }
+		  .switch-group + .switch-group { padding-top: 12px; border-top: 1px solid var(--divider-color); }
+		  .group-title { color: var(--secondary-text-color); font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+		  .switch-grid { display: grid; grid-template-columns: 1fr; column-gap: 24px; }
+		  .switch-grid.two-cols { grid-template-columns: repeat(2,minmax(0,1fr)); }
+		  .switch-grid .switch-row { min-height: 40px; gap: 12px; }
+		  .switch-grid .switch-label { overflow-wrap: anywhere; }
+		  @media (max-width:600px) { .grid, .switch-grid.two-cols { grid-template-columns: 1fr; } }
 		</style>
 		<div class="editor">
 		  <details class="section">
@@ -1069,42 +1095,35 @@ class CarLeasingCardEditor extends HTMLElement {
 		  <details class="section">
 			${this._sectionSummary(CarLeasingCardEditor.SECTION_ICONS.appearance, "Appearance")}
 			<div class="section-content">
-			  ${this._switchRow("hide_title_icon", "Hide title icon", "Hide the car icon next to the card title.")}
-			  ${this._switchRow("hide_title", "Hide card title", "Hide the card title text.")}
-			  ${this._switchRow("hide_status_chip", "Hide status chip", "Hide the status chip (On track, Ahead of pace, Over limit).")}
-			  ${this._switchRow("hide_car_image", "Hide car illustration", "Hide the car illustration picture.")}
-			  ${this._switchRow(
-				"hide_progress_badge",
-				"Hide progress badge",
-				"Hide the km-gap badge above the progress bar. The pointer arrow stays visible.")}
-			  ${this._switchRow(
-				"hide_current_mileage",
-				"Hide current mileage",
-				"Hide the current mileage value from the info panel.")}
-			  ${this._switchRow(
-				"hide_driven",
-				"Hide driven since start",
-				"Hide the driven-since-start value from the info panel.")}
-			  ${this._switchRow(
-				"hide_expected_today",
-				"Hide expected by today",
-				"Hide the expected-by-today value from the info panel.")}
-			  ${this._switchRow(
-				"hide_remaining",
-				"Hide remaining",
-				"Hide the remaining km value from the info panel.")}
-			  ${this._switchRow(
-				"hide_days_left",
-				"Hide days left",
-				"Hide the days-left value from the info panel.")}
-			  ${this._switchRow(
-				"hide_contract_ends",
-				"Hide contract end date",
-				"Hide the contract end date value from the info panel.")}
-			  ${this._switchRow(
-				"hide_extra_alert",
-				"Never show extra-cost alert",
-				"Never display the extra-km cost alert, even if the mileage allowance is exceeded.")}
+			  <div class="appearance-hint">Turn a switch off to hide it.</div>
+			  ${this._switchGroup("Header", [
+				this._switchRow("show_title_icon", "Title icon"),
+				this._switchRow("show_title", "Card title"),
+				this._switchRow("show_status_chip", "Status chip"),
+			  ])}
+			  ${this._switchGroup("Illustration", [
+				this._switchRow("show_car_image", "Car illustration"),
+			  ])}
+			  ${this._switchGroup("Progress bar", [
+				this._switchRow(
+				  "show_progress_badge",
+				  "Progress badge",
+				  "Shows the km-gap badge. The pointer arrow always stays visible."),
+			  ])}
+			  ${this._switchGroup("Info panel", [
+				this._switchRow("show_current_mileage", "Current mileage"),
+				this._switchRow("show_driven", "Driven since start"),
+				this._switchRow("show_expected_today", "Expected by today"),
+				this._switchRow("show_remaining", "Remaining"),
+				this._switchRow("show_days_left", "Days left"),
+				this._switchRow("show_contract_ends", "Contract end date"),
+			  ], 2)}
+			  ${this._switchGroup("Alerts", [
+				this._switchRow(
+				  "show_extra_alert",
+				  "Extra-cost alert",
+				  "Shows the extra-km cost banner when the allowance is exceeded."),
+			  ])}
 			</div>
 		  </details>
 		</div>
@@ -1200,7 +1219,9 @@ class CarLeasingCardEditor extends HTMLElement {
 				return;
 			}
 			if (element.tagName === "HA-SWITCH") {
-				element.checked = value === true;
+				element.checked = CarLeasingCardEditor.VISIBILITY_FIELDS.has(key)
+					? this._isVisible(key)
+					: value === true;
 				return;
 			}
 			if (CarLeasingCardEditor._getDeepActiveElement() !== element) {
@@ -1209,6 +1230,10 @@ class CarLeasingCardEditor extends HTMLElement {
 		});
 	}
 
+	_isVisible(key) {
+		const name = key.slice("show_".length);
+		return this._config[key] !== false && this._config[`hide_${name}`] !== true;
+	}
 	_valueChanged(event) {
 		if (!this._config)
 			return;
@@ -1252,8 +1277,12 @@ class CarLeasingCardEditor extends HTMLElement {
 			...this._config,
 			[key]: value
 		};
-		const isDefaultBoolean = CarLeasingCardEditor.BOOLEAN_FIELDS.has(key) && value === false;
-		if (value === "" || value === undefined || isDefaultBoolean)
+		const isVisibilityField = CarLeasingCardEditor.VISIBILITY_FIELDS.has(key);
+		if (isVisibilityField) {
+			// Visible is the default: store only show_x: false, and drop the legacy hide_x key.
+			delete config[`hide_${key.slice("show_".length)}`];
+		}
+		if (value === "" || value === undefined || (isVisibilityField && value === true))
 			delete config[key];
 		this._config = config;
 
