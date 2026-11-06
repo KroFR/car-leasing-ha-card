@@ -1,0 +1,27 @@
+Side profile view of a modern European urban electric bicycle, step-through frame, facing right, perfectly centered, full bicycle visible, standing upright on its two wheels, no rider.
+
+Clean flat vector illustration in a strict cel-shaded style, designed to be traced into a clean SVG. Clearly recognizable e-bike silhouette: two large wheels of equal size, low curved step-through frame, thick down tube with an integrated battery, compact rear hub motor, upright seat post with a comfortable saddle, tall swept-back handlebar, front fork, front and rear mudguards, rear luggage rack, chain guard covering the chain.
+
+Solid flat color fills only. No gradients, no soft shading, no texture, no noise, no blur, no glow. Every color area is a single uniform flat color with crisp, sharp edges. Shading uses only a few large, smooth, clearly separated flat shapes.
+
+Limited palette of about 13 colors:
+
+frame, fork and mudguards: pure white #FFFFFF, light gray #EEEEEE for soft shade, gray #DCDCDC for lower shade
+outline: very dark charcoal #1A1E23
+panel lines: medium gray #8A8D90
+battery, hub motor, saddle, handlebar, grips, seat post, pedals, crank, chain guard and luggage rack: dark gray #3A3F45
+small display on the handlebar: dark blue-gray #3A4A5A with one lighter flat reflection band #5E6E7E
+tires: dark charcoal #2E3237
+wheels: light gray #C8CCD0 rims with dark gray #4A4F55 hubs
+headlight: white #F7FAFC
+rear light: red #D9363E with darker red #A82830
+
+Painted parts use neutral white and neutral gray only, with no colored tint, so the frame color is replaceable through CSS. The frame, fork and mudguards are clearly separated vector shapes. Battery, motor, saddle, handlebar, rack, chain guard, tires, wheels and lights keep their own fixed colors.
+
+Bold, uniform, smooth outer outline of constant thickness around every part. Frame tubes drawn thick and simplified, at least as wide as the tire. All curves smooth and continuous, with no jagged edges, no sketchy strokes, no broken lines.
+
+Large, simple shapes. Wheels drawn as a thick tire, a solid light rim band and a few thick spokes or a simple disc pattern, not dozens of thin wire spokes. Battery clearly visible as a separate dark block along the down tube, small rectangular handlebar display, simple headlight on the front, small red rear light on the rack, simple pedals and crank, chain hidden by the chain guard. No small decorative details, no tiny highlights, no cables, no chain links, no bolts, no brake levers detail, no basket, no panniers, no kickstand visible. The silhouette must remain recognizable at 120 px wide on a Home Assistant dashboard.
+
+Strict 90-degree side view. Both wheels perfectly aligned horizontally. Isolated bicycle on a pure transparent background with about 8% clear margin.
+
+No rider, no helmet, no luggage, no environment, no road, no ground line, no cast shadow, no text, no logo, no badge, no branding, no decorative stripes, no graphic decals, no perspective, no three-quarter view, no 3D rendering, no photorealism.

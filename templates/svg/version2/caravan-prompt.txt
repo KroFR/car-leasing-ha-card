@@ -1,0 +1,27 @@
+Side profile view of a modern European single-axle touring caravan, travel trailer, facing right with the towing drawbar pointing right, perfectly centered, full caravan visible, not attached to any vehicle.
+
+Clean flat vector illustration in a strict cel-shaded style, designed to be traced into a clean SVG. Clearly recognizable caravan silhouette: tall boxy body with rounded corners, gently curved front wall sloping back at the top, flat horizontal roofline, near-vertical rear wall, single axle positioned slightly behind the middle of the body, one large wheel partly covered by a wheel arch, short dark A-frame drawbar extending forward from the lower front, small jockey wheel under the drawbar touching the same baseline as the main wheel.
+
+Solid flat color fills only. No gradients, no soft shading, no texture, no noise, no blur, no glow. Every color area is a single uniform flat color with crisp, sharp edges. Shading uses only a few large, smooth, clearly separated flat shapes.
+
+Limited palette of about 13 colors:
+
+body: pure white #FFFFFF, light gray #EEEEEE for soft shade, gray #DCDCDC for lower shade
+outline: very dark charcoal #1A1E23
+panel lines: medium gray #8A8D90
+drawbar, hitch cover, jockey wheel, lower skirt, window frames, roof vent and corner steadies: dark gray #3A3F45
+windows: dark blue-gray #3A4A5A with one lighter flat reflection band #5E6E7E
+tires: dark charcoal #2E3237
+wheels: light gray #C8CCD0 with dark gray #4A4F55 spoke gaps
+front marker light: white #F7FAFC, side marker lights: amber #F4A62A
+rear light: red #D9363E with darker red #A82830
+
+Body panels use neutral white and neutral gray only, with no colored tint, so the body color is replaceable through CSS. Drawbar, hitch cover, jockey wheel, skirt, window frames, roof vent, windows, tires, wheels and lights keep their own fixed colors.
+
+Bold, uniform, smooth outer outline of constant thickness around the whole silhouette. Thinner uniform panel lines for the entry door and service hatches. All curves smooth and continuous, with no jagged edges, no sketchy strokes, no broken lines.
+
+Large, simple shapes. Large front window following the curved front wall, two rectangular side windows with rounded corners and dark frames, tall entry door with a small window toward the rear of the body, one or two plain service hatches low on the body, small dark roof vent, dark lower skirt, two folded corner steadies under the front and rear corners, small amber side marker lights, small white front marker light, tall vertical red rear light at the rear corner, simple 5-spoke wheel. No small decorative details, no tiny highlights, no awning, no bike rack, no solar panels, no gas bottles visible, no towing vehicle. The silhouette must remain recognizable at 120 px wide on a Home Assistant dashboard.
+
+Strict 90-degree side view. Main wheel and jockey wheel resting on the same horizontal baseline. Isolated caravan on a pure transparent background with about 8% clear margin.
+
+No people, no environment, no road, no ground line, no cast shadow, no text, no license plate text, no logo, no badge, no branding, no decorative side stripes, no graphic decals, no perspective, no three-quarter view, no 3D rendering, no photorealism.

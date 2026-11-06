@@ -1,0 +1,28 @@
+Side profile view of a modern European urban scooter, step-through design, facing right, perfectly centered, full scooter visible, standing upright on its two wheels, no rider.
+
+Clean flat vector illustration in a strict cel-shaded style, designed to be traced into a clean SVG. Clearly recognizable scooter silhouette: tall curved front leg shield rising from the floorboard to the handlebar, flat low floorboard between the wheels, large rounded rear body panel enclosing the engine, long padded seat on top of the rear body, short front fork with a front mudguard, two medium wheels of equal size, compact front apron with an integrated headlight, short handlebar cover, small windscreen optional and very short.
+
+Solid flat color fills only. No gradients, no soft shading, no texture, no noise, no blur, no glow. Every color area is a single uniform flat color with crisp, sharp edges. Shading uses only a few large, smooth, clearly separated flat shapes.
+
+Limited palette of about 13 colors:
+
+front leg shield, handlebar cover, rear body panel and front mudguard: pure white #FFFFFF, light gray #EEEEEE for soft shade, gray #DCDCDC for lower shade
+outline: very dark charcoal #1A1E23
+panel lines: medium gray #8A8D90
+floorboard, seat, fork, engine unit, swingarm, grab rail, footrest and mirror stems: dark gray #3A3F45
+exhaust: medium gray #8A8D90 with dark gray #4A4F55 end cap
+small windscreen: dark blue-gray #3A4A5A with one lighter flat reflection band #5E6E7E
+tires: dark charcoal #2E3237
+wheels: light gray #C8CCD0 with dark gray #4A4F55 spoke gaps and brake discs
+headlight: white #F7FAFC, amber indicators #F4A62A
+rear light: red #D9363E with darker red #A82830
+
+Painted parts use neutral white and neutral gray only, with no colored tint, so the body color is replaceable through CSS. The leg shield, handlebar cover, rear body panel and front mudguard are clearly separated vector shapes. Floorboard, seat, fork, engine unit, exhaust, tires, wheels and lights keep their own fixed colors.
+
+Bold, uniform, smooth outer outline of constant thickness around every part. Thinner uniform panel lines between the body panels and around the seat. All curves smooth and continuous, with no jagged edges, no sketchy strokes, no broken lines.
+
+Large, simple shapes. Headlight integrated in the handlebar cover or front apron, two small amber indicators front and rear, single mirror on a thin stem, dark flat floorboard, dark padded seat, dark rear grab rail, short exhaust under the rear body, simple brake discs, simple 5-spoke cast wheels, slim red rear light at the back of the rear body. No small decorative details, no tiny highlights, no cables, no bolts, no chrome, no top case, no side stand visible. The silhouette must remain recognizable at 120 px wide on a Home Assistant dashboard.
+
+Strict 90-degree side view. Both wheels perfectly aligned horizontally. Isolated scooter on a pure transparent background with about 8% clear margin.
+
+No rider, no helmet, no passenger, no luggage, no environment, no road, no ground line, no cast shadow, no text, no license plate text, no logo, no badge, no branding, no decorative stripes, no graphic decals, no perspective, no three-quarter view, no 3D rendering, no photorealism.

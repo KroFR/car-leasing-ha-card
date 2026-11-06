@@ -1,0 +1,27 @@
+Side profile view of a modern European camper van, a high-roof panel van converted into a campervan, facing right, perfectly centered, full vehicle visible.
+
+Clean flat vector illustration in a strict cel-shaded style, designed to be traced into a clean SVG. Clearly recognizable camper van silhouette: tall boxy van body, long flat horizontal high roofline, short sloping hood, steeply raked windshield, vertical rear end, long wheelbase, short front overhang, slightly longer rear overhang, two axles with single wheels.
+
+Solid flat color fills only. No gradients, no soft shading, no texture, no noise, no blur, no glow. Every color area is a single uniform flat color with crisp, sharp edges. Shading uses only a few large, smooth, clearly separated flat shapes.
+
+Limited palette of about 13 colors:
+
+body: pure white #FFFFFF, light gray #EEEEEE for soft shade, gray #DCDCDC for lower shade
+outline: very dark charcoal #1A1E23
+panel lines: medium gray #8A8D90
+bumpers, side protection strip, sliding door rail, awning cassette and roof vent: dark gray #3A3F45
+windows: dark blue-gray #3A4A5A with one lighter flat reflection band #5E6E7E
+tires: dark charcoal #2E3237
+wheels: light gray #C8CCD0 with dark gray #4A4F55 spoke gaps
+headlight: white #F7FAFC, amber indicator #F4A62A
+rear light: red #D9363E with darker red #A82830
+
+Body panels use neutral white and neutral gray only, with no colored tint, so the body color is replaceable through CSS. Bumpers, protection strip, door rail, awning cassette, roof vent, windows, tires, wheels and lights keep their own fixed colors.
+
+Bold, uniform, smooth outer outline of constant thickness around the whole silhouette. Thinner uniform panel lines for doors. All curves smooth and continuous, with no jagged edges, no sketchy strokes, no broken lines.
+
+Large, simple shapes. Front cab door with simple handle and side window, white side mirror, large sliding side door behind the cab with a visible horizontal rail line, two flush tinted living area windows with rounded corners, one in the sliding door and one in the rear section, slim closed dark awning cassette running along the upper body edge just below the roof, small dark roof vent on top, dark plastic front and rear bumpers, dark horizontal side protection strip, front headlight, tall vertical red rear light, simple 5-spoke alloy wheels. No small decorative details, no tiny highlights, no fine grille texture, no open awning, no bike rack, no solar panels, no ladder, no roof box, no pop-up roof. The silhouette must remain recognizable at 120 px wide on a Home Assistant dashboard.
+
+Strict 90-degree side view. Both wheels perfectly aligned horizontally. Isolated vehicle on a pure transparent background with about 8% clear margin.
+
+No driver, no passengers, no environment, no road, no ground line, no cast shadow, no text, no license plate text, no logo, no branding, no decorative side stripes, no graphic decals, no perspective, no three-quarter view, no 3D rendering, no photorealism.
