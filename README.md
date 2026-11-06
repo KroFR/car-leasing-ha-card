@@ -10,7 +10,7 @@ A custom Lovelace card for [Home Assistant](https://www.home-assistant.io/) that
 
 | Light Theme | Dark Theme |
 |---|---|
-| <img width="501" height="461" alt="image" src="https://github.com/user-attachments/assets/882d4528-f077-4eb6-b5bd-0da73fc5d415" /> | <img width="502" height="462" alt="image" src="https://github.com/user-attachments/assets/d0645885-d803-468b-aaeb-c3379ed7608c" /> |
+| <img width="502" height="513" alt="image" src="https://github.com/user-attachments/assets/aae13867-42d5-46e9-9b63-2d3966b8f0a7" /> | <img width="502" height="516" alt="image" src="https://github.com/user-attachments/assets/772809be-ff5f-4a89-bb7e-0b93685b8dbf" /> |
 
 | Information | Description |
 |------------|-------------|
@@ -113,28 +113,51 @@ Edit any dashboard and select **Add Card**. Search for **Car Leasing Card**, or 
 
 ## 📝 Usage examples
 
-### Minimal configuration
-
-Only the required entities, everything else falls back to defaults.
+### Mileage is above the expected limit
 
 | Light Theme | Dark Theme |
 |---|---|
-| <img width="471" height="448" alt="image" src="https://github.com/user-attachments/assets/5c11b765-a077-4985-b81f-366635ede752" /> | <img width="474" height="450" alt="image" src="https://github.com/user-attachments/assets/cb3b6adb-437b-4a70-887c-98451d39bd4b" /> |
+| <img width="501" height="463" alt="image" src="https://github.com/user-attachments/assets/6abac0e7-fa69-4323-9405-3e7a8a2fa8bb" /> | <img width="502" height="464" alt="image" src="https://github.com/user-attachments/assets/386f6763-0f31-4f25-b3a4-d5a6748ffada" /> |
 
 ```yaml
 type: custom:car-leasing-card
 mileage_entity: sensor.car_odometer
 contract_end: '2029-09-12'
 contract_start: '2025-08-13'
+annual_allowance: 15000
+vehicle_color: '#2fd723'
+vehicle_type: motorcycle-roadster
+name: Hornet
+show_remaining: false
+show_expected_today: false
 ```
 
-### Full configuration
-
-The complete configuration with leasing on track indicator
+### Mileage exceeds the contracted mileage
 
 | Light Theme | Dark Theme |
 |---|---|
-| <img width="471" height="459" alt="image" src="https://github.com/user-attachments/assets/fee29edf-db5f-40e9-9489-bed20573a086" /> | <img width="474" height="461" alt="image" src="https://github.com/user-attachments/assets/2457daf8-930f-48f9-afa3-c76a1b57a9d5" /> |
+| <img width="500" height="541" alt="image" src="https://github.com/user-attachments/assets/3bd31d1a-e04f-4f64-af7e-0066b9808ac2" /> | <img width="503" height="541" alt="image" src="https://github.com/user-attachments/assets/c66ce408-56ce-4f52-8044-7322389001b6" />
+ |
+
+```yaml
+type: custom:car-leasing-card
+mileage_entity: sensor.car_odometer
+contract_end: '2026-09-12'
+contract_start: '2025-08-13'
+annual_allowance: 20000
+vehicle_color: '#bc8a16'
+vehicle_type: tesla-model3
+name: Tesla Model 3
+show_remaining: false
+show_expected_today: false
+extra_km_cost: 0.094
+```
+
+### Vehicle color and orientation
+
+| Light Theme | Dark Theme |
+|---|---|
+| <img width="501" height="461" alt="image" src="https://github.com/user-attachments/assets/39595995-15b7-463b-8c66-1dbc5fd4c09a" /> | <img width="502" height="464" alt="image" src="https://github.com/user-attachments/assets/f38079d8-44bb-4876-b282-970e30331998" /> |
 
 ```yaml
 type: custom:car-leasing-card
@@ -142,75 +165,39 @@ mileage_entity: sensor.car_odometer
 name: Wave Rider Van
 contract_end: '2029-09-12'
 contract_start: '2025-08-13'
-language: en
 annual_allowance: 25000
-extra_km_cost: 0.12
-currency: €
-vehicle_type: cargo-van
-```
-
-The complete configuration with leasing over limit and cost estimation
-
-| Light Theme | Dark Theme |
-|---|---|
-| <img width="472" height="499" alt="image" src="https://github.com/user-attachments/assets/e247d8d5-9c5d-45c4-aec0-28e7c9567fd2" /> | <img width="473" height="500" alt="image" src="https://github.com/user-attachments/assets/b54a5c49-d950-473c-a8e8-f0cbdcc8262c" /> |
-
-```yaml
-type: custom:car-leasing-card
-mileage_entity: sensor.car_odometer
-contract_end: '2027-09-12'
-contract_start: '2025-08-13'
-show_contract_ends: false
-show_current_mileage: false
-annual_allowance: 5000
 vehicle_type: camper-van
-extra_km_cost: 0.094
-currency: "$"
-```
-
-### Hiding fields from the info panel
-
-| Light Theme | Dark Theme |
-|---|---|
-| <img width="470" height="286" alt="image" src="https://github.com/user-attachments/assets/5b7eea2c-83aa-479d-a74d-07dff699d541" /> | <img width="472" height="285" alt="image" src="https://github.com/user-attachments/assets/45d13568-8fd3-443a-9b7b-f506b6c58016" /> |
-
-```yaml
-type: custom:car-leasing-card
-mileage_entity: sensor.car_odometer
-name: Tesla Model 3
-contract_end: '2029-09-12'
-contract_start: '2025-08-13'
-show_car_image: false
-show_current_mileage: false
-annual_allowance: 21000
+vehicle_color: '#cf8607'
 show_expected_today: false
-```
-
-### Vehicle color and orientation
-
-A blue SUV with its front on the left.
-
-```yaml
-type: custom:car-leasing-card
-mileage_entity: sensor.car_odometer
-contract_end: '2029-09-12'
-contract_start: '2025-08-13'
-vehicle_type: suv
-vehicle_color: '#1e5aa8'
+show_driven: false
 flip_vehicle: true
 ```
 
 ### Compact header
 
-Only the status chip is kept in the header.
+| Light Theme | Dark Theme |
+|---|---|
+| <img width="500" height="297" alt="image" src="https://github.com/user-attachments/assets/8fc382aa-a537-4a33-936c-1c2aa30f6559" /> | <img width="501" height="300" alt="image" src="https://github.com/user-attachments/assets/5d64dd62-f992-4620-a25c-11a4e9c6984f" /> |
 
 ```yaml
 type: custom:car-leasing-card
 mileage_entity: sensor.car_odometer
 contract_end: '2029-09-12'
 contract_start: '2025-08-13'
+annual_allowance: 20000
+vehicle_color: '#0778cf'
+show_expected_today: false
+show_driven: false
+flip_vehicle: true
 show_title_icon: false
 show_title: false
+show_days_left: false
+show_current_mileage: false
+show_remaining: false
+show_contract_ends: false
+vehicle_type: tesla-model3
+show_status_chip: false
+
 ```
 
 ## 📄 License
