@@ -1,4 +1,4 @@
-# SVG Assets
+# SVG Assets (DEPRECATED)
 
 The SVG illustrations used in this project are stored in the /svg directory.
 
