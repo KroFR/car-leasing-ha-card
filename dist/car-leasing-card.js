@@ -8,7 +8,7 @@
  *
  */
 
-const CARD_VERSION = "1.0.6";
+const CARD_VERSION = "1.0.7";
 
 /* ---------------------------------------------------------------------- */
 /*  Main card                                                             */
@@ -649,9 +649,9 @@ class CarLeasingCard extends HTMLElement {
 				  ${badgeBlock}
 				</div>`;
 
-		const progressBlock = cfg.hide_progress_bar
-			 ? ""
-			 : `
+		const progressBlock = `
+		
+	   
 			<div class="progress-section${badgeHidden ? " no-badge" : ""}">
 			  <div class="progress-track">
 				<div class="progress-fill" style="width:${data.progressPct}%;background:${statusColors.color}"></div>
@@ -735,21 +735,37 @@ class CarLeasingCard extends HTMLElement {
 		</div>`
 			 : "";
 
-		const hasContentBelowHeader = Boolean(
-				carWrapBlock || progressBlock || statsPanelBlock || extraBlock);
-		const headerExtraGapClass = carHidden && hasContentBelowHeader ? " no-car" : "";
+		const headerParts = [];
+		if (!cfg.hide_title_icon) {
+			headerParts.push(`<div class="h-icon"><ha-icon icon="mdi:car"></ha-icon></div>`);
+		}
+		if (!cfg.hide_title) {
+			headerParts.push(`<div class="title">${title}</div>`);
+		}
+		if (!cfg.hide_status_chip) {
+			headerParts.push(`
+			  <div class="status-chip" style="color:${statusColors.color};background:${statusColors.bg}">
+				${statusLabel}
+			  </div>`);
+		}
+		const headerBlock =
+			headerParts.length > 0
+			 ? `
+			<div class="header${carHidden ? " no-car" : ""}">${headerParts.join("")}
+			</div>`
+			 : "";
 
 		this.shadowRoot.innerHTML = `
 		<style>${this._baseStyles()}</style>
 		<ha-card>
 		  <div class="card-content${darkMode ? " dark-mode" : ""}">
-			<div class="header${headerExtraGapClass}">
-			  <div class="h-icon"><ha-icon icon="mdi:car"></ha-icon></div>
-			  <div class="title">${title}</div>
-			  <div class="status-chip" style="color:${statusColors.color};background:${statusColors.bg}">
-				${statusLabel}
-			  </div>
-			</div>
+			${headerBlock}
+																 
+									  
+																								
+				  
+		   
+		 
 
 			${carWrapBlock}
 			${progressBlock}
@@ -786,7 +802,7 @@ class CarLeasingCard extends HTMLElement {
 		}
 
 		.title { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size: 1.2em; font-weight: 600; color: var(--primary-text-color); }
-		.status-chip { font-size: 0.75em; font-weight: 600; padding: 4px 10px; border-radius: 12px; white-space: nowrap; flex-shrink: 0; }
+		.status-chip { margin-left: auto; font-size: 0.75em; font-weight: 600; padding: 4px 10px; border-radius: 12px; white-space: nowrap; flex-shrink: 0; }
 
 		.car-wrap { width: 100%; display:flex; justify-content:center; margin: 4px 0 8px; }
 		.car-svg { width: 100%; max-width: 260px; height: auto; }
@@ -875,7 +891,9 @@ class CarLeasingCardEditor extends HTMLElement {
 
 	static BOOLEAN_FIELDS = new Set([
 				"hide_car_image",
-				"hide_progress_bar",
+				"hide_title_icon",
+				"hide_title",
+				"hide_status_chip",
 				"hide_progress_badge",
 				"hide_current_mileage",
 				"hide_driven",
@@ -1051,8 +1069,10 @@ class CarLeasingCardEditor extends HTMLElement {
 		  <details class="section">
 			${this._sectionSummary(CarLeasingCardEditor.SECTION_ICONS.appearance, "Appearance")}
 			<div class="section-content">
+			  ${this._switchRow("hide_title_icon", "Hide title icon", "Hide the car icon next to the card title.")}
+			  ${this._switchRow("hide_title", "Hide card title", "Hide the card title text.")}
+			  ${this._switchRow("hide_status_chip", "Hide status chip", "Hide the status chip (On track, Ahead of pace, Over limit).")}
 			  ${this._switchRow("hide_car_image", "Hide car illustration", "Hide the car illustration picture.")}
-			  ${this._switchRow("hide_progress_bar", "Hide progress bar", "Hide the mileage progress bar.")}
 			  ${this._switchRow(
 				"hide_progress_badge",
 				"Hide progress badge",
