@@ -26,8 +26,8 @@ A custom Lovelace card for [Home Assistant](https://www.home-assistant.io/) that
 - Mileage progress bar with yearly markers, comparing actual driven km against the expected pace for the current date.
 - Automatic status detection: **On track**, **Ahead of pace**, or **Over limit**, each with its own color.
 - Extra-km cost estimation, shown automatically once the allowance is exceeded.
-- 7 vehicle illustrations to choose from: Micro, Sedan, CUV, SUV, Van, Campervan, Pickup.
-- Configurable info panel (current mileage, driven since start, expected by today, remaining km, days left, contract end date), each field can be hidden independently.
+- 17 vehicle illustrations to choose from, from an electric bike to a motorhome (see [Vehicle types](#vehicle-types)), with a custom color and an option to flip the vehicle to face left.
+- Every element can be shown or hidden independently. The progress bar is always displayed.
 - Light and dark mode support, matching Home Assistant's native color scheme.
 - Multilingual support and auto-detection (English, French, German, Spanish, Italian, Portuguese, Dutch).
 - Visual editor: fully configurable through the Lovelace UI editor, no YAML required.
@@ -66,24 +66,50 @@ Edit any dashboard and select **Add Card**. Search for **Car Leasing Card**, or 
 | `mileage_entity` | string | yes | — | Sensor providing the car's current mileage (km) |
 | `contract_start` | string | yes | — | Contract start date (`YYYY-MM-DD`) |
 | `contract_end` | string | yes | — | Contract end date (`YYYY-MM-DD`) |
-| `name` | string | no | Card Leasing | Card title |
-| `vehicle_type` | string | no | `sedan` | `micro`, `sedan`, `cuv`, `suv`, `van`, `campervan`, `pickup` |
+| `name` | string | no | `Car Leasing` | Card title. The default is translated to the card language. |
+| `vehicle_type` | string | no | `sedan` | Vehicle illustration, see [Vehicle types](#vehicle-types) |
+| `vehicle_color` | string | no | `#ffffff` | Vehicle color as `#rgb` or `#rrggbb`. Any other value falls back to white. |
+| `flip_vehicle` | boolean | no | `false` | Mirror the illustration horizontally to put the front of the vehicle on the left |
 | `language` | string | no | `auto` | `auto`, `en`, `fr`, `de`, `es`, `it`, `pt`, `nl` |
 | `start_mileage` | number | no | `0` | Odometer reading at contract start. Useful if your car is second-hand. |
 | `annual_allowance` | number | no | `15000` | Km allowed per year by the contract |
 | `extra_km_cost` | number | no | `0` | Cost charged per km once the total allowance is exceeded |
 | `currency` | string | no | `€` | Currency symbol used for cost display |
 | `ahead_tolerance_pct` | number | no | `0` | Controls how far above the expected mileage pace a contract can go before switching from "On track" to "Ahead of pace". Set as a percentage. |
-| `hide_car_image` | boolean | no | `false` | Hide the vehicle illustration |
-| `hide_progress_bar` | boolean | no | `false` | Hide the mileage progress bar |
-| `hide_progress_badge` | boolean | no | `false` | Hide the km-gap badge above the progress bar |
-| `hide_current_mileage` | boolean | no | `false` | Hide the current mileage value |
-| `hide_driven` | boolean | no | `false` | Hide the driven-since-start value |
-| `hide_expected_today` | boolean | no | `false` | Hide the expected-by-today value |
-| `hide_remaining` | boolean | no | `false` | Hide the remaining km value |
-| `hide_days_left` | boolean | no | `false` | Hide the days-left value |
-| `hide_contract_ends` | boolean | no | `false` | Hide the contract end date value |
-| `hide_extra_alert` | boolean | no | `false` | Never show the extra-cost alert, even if the allowance is exceeded |
+| `show_title_icon` | boolean | `true` | Show the car icon next to the card title |
+| `show_title` | boolean | `true` | Show the card title |
+| `show_status_chip` | boolean | `true` | Show the status chip (On track, Ahead of pace, Over limit) |
+| `show_car_image` | boolean | `true` | Show the vehicle illustration |
+| `show_progress_badge` | boolean | `true` | Show the km-gap badge above the progress bar. The pointer arrow always stays visible. |
+| `show_current_mileage` | boolean | `true` | Show the current mileage value |
+| `show_driven` | boolean | `true` | Show the driven-since-start value |
+| `show_expected_today` | boolean | `true` | Show the expected-by-today value |
+| `show_remaining` | boolean | `true` | Show the remaining km value |
+| `show_days_left` | boolean | `true` | Show the days-left value |
+| `show_contract_ends` | boolean | `true` | Show the contract end date value |
+| `show_extra_alert` | boolean | `true` | Show the extra-cost alert when the allowance is exceeded |
+
+### Vehicle types
+
+| Value | Vehicle |
+|---|---|
+| `camper-van` | Camper van |
+| `caravan` | Caravan |
+| `cargo-van` | Cargo van |
+| `segment-a` | City car |
+| `compact` | Compact hatchback |
+| `european-delivery-truck` | Delivery truck |
+| `e-bike` | Electric bike |
+| `estate-car` | Estate car |
+| `micro` | Micro car |
+| `motorcycle-roadster` | Motorcycle (roadster) |
+| `motorhome` | Motorhome |
+| `mpv` | MPV |
+| `pickup-truck` | Pickup truck |
+| `scooter` | Scooter |
+| `sedan` | Sedan (default) |
+| `suv` | SUV |
+| `tesla-model3` | Tesla Model 3 |
 
 ## 📝 Usage examples
 
@@ -120,7 +146,7 @@ language: en
 annual_allowance: 25000
 extra_km_cost: 0.12
 currency: €
-vehicle_type: van
+vehicle_type: cargo-van
 ```
 
 The complete configuration with leasing over limit and cost estimation
@@ -134,10 +160,10 @@ type: custom:car-leasing-card
 mileage_entity: sensor.car_odometer
 contract_end: '2027-09-12'
 contract_start: '2025-08-13'
-hide_contract_ends: true
-hide_current_mileage: true
+show_contract_ends: false
+show_current_mileage: false
 annual_allowance: 5000
-vehicle_type: campervan
+vehicle_type: camper-van
 extra_km_cost: 0.094
 currency: "$"
 ```
@@ -154,10 +180,37 @@ mileage_entity: sensor.car_odometer
 name: Tesla Model 3
 contract_end: '2029-09-12'
 contract_start: '2025-08-13'
-hide_car_image: true
-hide_current_mileage: true
+show_car_image: false
+show_current_mileage: false
 annual_allowance: 21000
-hide_expected_today: true
+show_expected_today: false
+```
+
+### Vehicle color and orientation
+
+A blue SUV with its front on the left.
+
+```yaml
+type: custom:car-leasing-card
+mileage_entity: sensor.car_odometer
+contract_end: '2029-09-12'
+contract_start: '2025-08-13'
+vehicle_type: suv
+vehicle_color: '#1e5aa8'
+flip_vehicle: true
+```
+
+### Compact header
+
+Only the status chip is kept in the header.
+
+```yaml
+type: custom:car-leasing-card
+mileage_entity: sensor.car_odometer
+contract_end: '2029-09-12'
+contract_start: '2025-08-13'
+show_title_icon: false
+show_title: false
 ```
 
 ## 📄 License
