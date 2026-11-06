@@ -1,6 +1,6 @@
 # SVG Assets
 
-The SVG illustrations used in this project are stored in the ../template/svg/version2/ directory.
+The SVG illustrations used in this project are stored in the  `../template/svg/version2/` directory.
 
 These graphics were designed and exported using IA prompts, which was used to create scalable vector artwork for the different vehicle types supported by the card. SVG format was chosen to ensure:
 
